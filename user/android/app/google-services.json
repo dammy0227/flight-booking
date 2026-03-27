@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "939521546170",
+    "project_id": "smiling-audio-435119-k7",
+    "storage_bucket": "smiling-audio-435119-k7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939521546170:android:350dbfdc3298579a5b2f83",
+        "android_client_info": {
+          "package_name": "com.example.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939521546170-5ra6ess4u6s4t0go40i271cvf21147lj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.user",
+            "certificate_hash": "6aea2b7811c53d1d1228e273f1025cdacc81981d"
+          }
+        },
+        {
+          "client_id": "939521546170-der63kpkvpggtjb5pdcbh8n83517e03e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1zE-WEbD80TmmnWKlf02FLjWsH4Bsfbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939521546170-der63kpkvpggtjb5pdcbh8n83517e03e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
