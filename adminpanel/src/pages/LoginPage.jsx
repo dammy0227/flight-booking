@@ -286,20 +286,7 @@ const LoginPage = () => {
               </button>
             </form>
 
-            {/* Demo Credentials */}
-            <div className="mt-6 p-4 bg-gray-50 rounded-xl">
-              <p className="text-xs text-gray-500 text-center mb-2">Demo Credentials</p>
-              <div className="flex justify-center space-x-4 text-xs">
-                <div>
-                  <span className="text-gray-400">Email:</span>
-                  <span className="text-gray-600 ml-1 font-mono">admin@123reserve.com</span>
-                </div>
-                <div>
-                  <span className="text-gray-400">Password:</span>
-                  <span className="text-gray-600 ml-1 font-mono">admin123</span>
-                </div>
-              </div>
-            </div>
+           
 
             {/* Mobile Footer */}
             <div className="lg:hidden mt-8 text-center text-gray-400 text-xs">
