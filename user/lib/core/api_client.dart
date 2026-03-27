@@ -6,7 +6,7 @@ class ApiClient {
   late dio.Dio dioClient;
   final storage = GetStorage();
 
-  final String baseUrl = "http://10.0.2.2:5000/api";
+  final String baseUrl = "https://flight-booking-13jt.onrender.com/api";
 
   ApiClient() {
     dioClient = dio.Dio(
