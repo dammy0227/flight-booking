@@ -167,3 +167,32 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+
+    if (user.image) {
+      try {
+        const publicId = user.image.split("/").pop().split(".")[0];
+        await cloudinary.uploader.destroy(`users/${publicId}`);
+      } catch (err) {
+        console.log("Cloudinary delete error:", err.message);
+      }
+    }
+
+    await user.deleteOne();
+
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Delete user error:", error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};

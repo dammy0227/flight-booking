@@ -282,7 +282,7 @@ class _ProfileViewState extends State<ProfileView> {
                           ? Image.network(
                           imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, _, __) => _avatarFallback(user?.name ?? '')
+                          errorBuilder: (_, _, _) => _avatarFallback(user?.name ?? '')
                       )
                           : _avatarFallback(user?.name ?? ''),
                     ),

@@ -21,6 +21,9 @@ class Hotel {
   final int           roomsAvailable;
   final List<String>  amenities;
   final List<HotelImage> images;
+  final String?       phone;
+  final String?       email;
+  final String?       website;
 
   Hotel({
     required this.id,
@@ -33,6 +36,9 @@ class Hotel {
     required this.roomsAvailable,
     required this.amenities,
     required this.images,
+    this.phone,
+    this.email,
+    this.website,
   });
 
   factory Hotel.fromJson(Map<String, dynamic> json) => Hotel(
@@ -50,6 +56,9 @@ class Hotel {
     images: (json['images'] as List<dynamic>?)
         ?.map((e) => HotelImage.fromJson(e as Map<String, dynamic>))
         .toList() ?? [],
+    phone:          json['phone']          as String?,
+    email:          json['email']          as String?,
+    website:        json['website']        as String?,
   );
 
   Map<String, dynamic> toJson() => {
@@ -63,5 +72,8 @@ class Hotel {
     'roomsAvailable':roomsAvailable,
     'amenities':     amenities,
     'images':        images.map((i) => {'url': i.url, 'public_id': i.publicId}).toList(),
+    if (phone != null) 'phone': phone,
+    if (email != null) 'email': email,
+    if (website != null) 'website': website,
   };
 }

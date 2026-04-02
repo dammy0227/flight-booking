@@ -249,7 +249,7 @@ class _HotelsViewState extends State<HotelsView> {
                         height: 200,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, _, __) => Container(
+                        errorBuilder: (_, _, _) => Container(
                           height: 200,
                           color: AppTheme.gold.withOpacity(0.1),
                           child: const Icon(

@@ -12,6 +12,7 @@ class Room {
   final String? bedType;
   final int? maxOccupancy;
   final String? view;
+  final List<String> amenities;
 
   final List<String> images;
 
@@ -30,6 +31,7 @@ class Room {
     this.bedType,
     this.maxOccupancy,
     this.view,
+    this.amenities = const [],
     required this.images,
     this.createdAt,
     this.updatedAt,
@@ -50,13 +52,17 @@ class Room {
       hotelId = hotelData;
     }
 
-    /// 🔥 SAFE IMAGE PARSING
     List<String> images = [];
     if (json['images'] != null && json['images'] is List) {
       images = (json['images'] as List)
           .map((img) => img['url']?.toString() ?? "")
           .where((url) => url.isNotEmpty)
           .toList();
+    }
+
+    List<String> amenities = [];
+    if (json['amenities'] != null && json['amenities'] is List) {
+      amenities = List<String>.from(json['amenities']);
     }
 
     return Room(
@@ -71,6 +77,7 @@ class Room {
       bedType: json['bedType'],
       maxOccupancy: json['maxOccupancy'],
       view: json['view'],
+      amenities: amenities,
       images: images,
       createdAt: json['createdAt'] != null
           ? DateTime.tryParse(json['createdAt'])

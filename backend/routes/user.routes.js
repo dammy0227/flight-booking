@@ -6,7 +6,8 @@ import {
   firebaseAuth,
   getUserById,
   updateProfile,
-  getAllUsers
+  getAllUsers,
+  deleteUser
 } from "../controllers/user.controller.js";
 import { protect, admin } from "../middlewares/auth.js";
 import { upload } from "../middlewares/upload.js";
@@ -47,4 +48,12 @@ router.put(
   updateProfile
 );
 
-export default router;
+router.delete(
+  "/:userId",
+  protect,
+  admin,
+  param("userId").isMongoId().withMessage("Invalid user ID"),
+  deleteUser
+);
+
+export default router; 

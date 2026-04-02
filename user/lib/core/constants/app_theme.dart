@@ -17,6 +17,10 @@ class AppTheme {
   static const Color error = Color(0xFFEF4444);
   static const Color info = Color(0xFF3B82F6);
 
+  // Add to AppTheme constants
+  static const Color cardDark = Color(0xFF0F1420);
+
+
   // Text Styles
   static const TextStyle headline1 = TextStyle(
     color: cream,
