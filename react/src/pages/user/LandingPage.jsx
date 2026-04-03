@@ -36,6 +36,7 @@ import {
   FiAlertCircle
 } from 'react-icons/fi';
 import { GiAirplaneDeparture } from 'react-icons/gi';
+import InstallButton from '../../component/InstallButton';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -236,6 +237,7 @@ const LandingPage = () => {
                 <FiChevronRight size={16} className="text-[#8B92A5] group-hover:text-[#C9A84C] group-hover:translate-x-1 transition-all" />
               </button>
             ))}
+            <InstallButton />
           </nav>
 
           {/* CTA buttons at bottom */}
