@@ -237,7 +237,6 @@ const LandingPage = () => {
                 <FiChevronRight size={16} className="text-[#8B92A5] group-hover:text-[#C9A84C] group-hover:translate-x-1 transition-all" />
               </button>
             ))}
-            <InstallButton />
           </nav>
 
           {/* CTA buttons at bottom */}
@@ -360,8 +359,10 @@ const LandingPage = () => {
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 md:gap-4">
                 <button
                   onClick={() => navigate('/register')}
-                  className="group px-5 md:px-8 py-3 md:py-4 bg-linear
--to-r from-[#C9A84C] to-[#E8C97A] rounded-xl md:rounded-2xl text-[#0A0E1A] font-bold text-sm md:text-lg hover:shadow-2xl hover:shadow-[#C9A84C]/30 transition-all duration-300 flex items-center gap-2"
+                  className="group px-5 md:px-8 py-3 md:py-4 bg-linear-to-r from-[#C9A84C]
+                   to-[#E8C97A] rounded-xl md:rounded-2xl text-[#0A0E1A] 
+                   font-bold text-sm md:text-lg hover:shadow-2xl hover:shadow-[#C9A84C]/30 transition-all 
+                   duration-300 flex items-center gap-2"
                 >
                   Book Your Flight
                   <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
@@ -372,6 +373,7 @@ const LandingPage = () => {
                 >
                   Sign In
                 </button>
+                  <InstallButton />
               </div>
               
               <div className="flex items-center justify-center lg:justify-start gap-4 md:gap-6 mt-8 md:mt-10">
