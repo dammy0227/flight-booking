@@ -52,6 +52,18 @@ const LandingPage = () => {
   });
   const [formErrors, setFormErrors] = useState({});
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   // Animation on scroll observer
   useEffect(() => {
     const observerOptions = {
@@ -141,10 +153,13 @@ const LandingPage = () => {
 
   const handleSmoothScroll = (id) => {
     setIsMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Small delay to let menu close animation start before scrolling
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
   };
 
   const validateForm = () => {
@@ -169,7 +184,79 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-[#0A0E1A] overflow-x-hidden">
-      {/* Navigation */}
+
+      <div
+        className={`fixed inset-0 z-9999 md:hidden transition-all duration-300 ${
+          isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'
+        }`}
+      >
+        {/* Backdrop */}
+        <div
+          className={`absolute inset-0 bg-[#0A0E1A]/80 backdrop-blur-sm transition-opacity duration-300 ${
+            isMenuOpen ? 'opacity-100' : 'opacity-0'
+          }`}
+          onClick={() => setIsMenuOpen(false)}
+        />
+
+        {/* Slide-in panel from the right */}
+        <div
+          className={`absolute top-0 right-0 h-full w-4/5 max-w-xs bg-[#0D1220] border-l border-[#C9A84C]/20 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${
+            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          {/* Panel header */}
+          <div className="flex items-center justify-between px-6 py-5 border-b border-[#252E44]">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-[#C9A84C] rounded-lg flex items-center justify-center">
+                <FiAirplay className="text-[#0A0E1A] text-base" />
+              </div>
+              <span className="text-base font-black tracking-wide text-[#F5F0E8]">
+                123 <span className="text-[#C9A84C]">RESERVE</span>
+              </span>
+            </div>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="p-2 rounded-lg bg-[#1C2438] text-[#C9A84C] hover:bg-[#252E44] transition-colors"
+              aria-label="Close menu"
+            >
+              <FiX size={20} />
+            </button>
+          </div>
+
+          {/* Nav links */}
+          <nav className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-1">
+            {navItems.map((item, i) => (
+              <button
+                key={item.name}
+                onClick={() => handleSmoothScroll(item.id)}
+                className="w-full text-left px-4 py-3 rounded-xl text-[#F5F0E8] hover:text-[#C9A84C] hover:bg-[#1C2438] transition-all duration-200 text-base font-medium flex items-center justify-between group"
+                style={{ animationDelay: `${i * 50}ms` }}
+              >
+                <span>{item.name}</span>
+                <FiChevronRight size={16} className="text-[#8B92A5] group-hover:text-[#C9A84C] group-hover:translate-x-1 transition-all" />
+              </button>
+            ))}
+          </nav>
+
+          {/* CTA buttons at bottom */}
+          <div className="px-6 py-6 border-t border-[#252E44] flex flex-col gap-3">
+            <button
+              onClick={() => { setIsMenuOpen(false); navigate('/login'); }}
+              className="w-full py-3 rounded-xl text-[#C9A84C] border border-[#C9A84C]/40 hover:bg-[#C9A84C]/10 transition-all font-semibold text-sm"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => { setIsMenuOpen(false); navigate('/register'); }}
+              className="w-full py-3 bg-linear-to-r from-[#C9A84C] to-[#E8C97A] rounded-xl text-[#0A0E1A] font-bold text-sm hover:shadow-lg hover:shadow-[#C9A84C]/30 transition-all"
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── NAVIGATION ──────────────────────────────────────────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled ? 'bg-[#0A0E1A]/95 backdrop-blur-xl border-b border-[#C9A84C]/20 py-3' : 'bg-transparent py-4 md:py-5'
       }`}>
@@ -185,6 +272,7 @@ const LandingPage = () => {
               </div>
             </Link>
             
+            {/* Desktop links */}
             <div className="hidden md:flex items-center gap-6 lg:gap-8">
               {navItems.map((item) => (
                 <button
@@ -197,6 +285,7 @@ const LandingPage = () => {
               ))}
             </div>
             
+            {/* Desktop CTAs */}
             <div className="hidden md:flex items-center gap-3">
               <button
                 onClick={() => navigate('/login')}
@@ -212,49 +301,14 @@ const LandingPage = () => {
               </button>
             </div>
             
+            {/* Hamburger — only visible on mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-[#1C2438] text-[#C9A84C]"
+              className="md:hidden p-2 rounded-lg bg-[#1C2438] text-[#C9A84C] hover:bg-[#252E44] transition-colors z-[60] relative"
+              aria-label="Toggle menu"
             >
               {isMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
             </button>
-          </div>
-        </div>
-        
-        {/* Mobile Menu */}
-        <div className={`fixed inset-0 bg-[#0A0E1A] z-40 transform transition-transform duration-500 ease-in-out ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        } md:hidden`}>
-          <div className="flex flex-col items-center justify-center h-full gap-6 p-6">
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => handleSmoothScroll(item.id)}
-                className="text-xl text-[#F5F0E8] hover:text-[#C9A84C] transition-colors"
-              >
-                {item.name}
-              </button>
-            ))}
-            <div className="flex gap-4 mt-6">
-              <button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  navigate('/login');
-                }}
-                className="px-6 py-2.5 rounded-xl text-[#C9A84C] border border-[#C9A84C]/40 hover:bg-[#C9A84C]/10 transition-all"
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  navigate('/register');
-                }}
-                className="px-6 py-2.5 bg-[#C9A84C] rounded-xl text-[#0A0E1A] font-bold hover:bg-[#E8C97A] transition-all"
-              >
-                Get Started
-              </button>
-            </div>
           </div>
         </div>
       </nav>
@@ -291,36 +345,21 @@ const LandingPage = () => {
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 mb-6 md:mb-8">
-                <div className="flex items-center gap-2 md:gap-3 p-1.5 md:p-2">
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-[#C9A84C]/20 flex items-center justify-center">
-                    <FiCheckCircle className="text-[#C9A84C]" size={12} />
+                {['Best price guarantee', 'Free cancellation', 'Earn miles', '24/7 support'].map((item) => (
+                  <div key={item} className="flex items-center gap-2 md:gap-3 p-1.5 md:p-2">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-[#C9A84C]/20 flex items-center justify-center">
+                      <FiCheckCircle className="text-[#C9A84C]" size={12} />
+                    </div>
+                    <span className="text-[#F5F0E8] text-xs md:text-sm">{item}</span>
                   </div>
-                  <span className="text-[#F5F0E8] text-xs md:text-sm">Best price guarantee</span>
-                </div>
-                <div className="flex items-center gap-2 md:gap-3 p-1.5 md:p-2">
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-[#C9A84C]/20 flex items-center justify-center">
-                    <FiCheckCircle className="text-[#C9A84C]" size={12} />
-                  </div>
-                  <span className="text-[#F5F0E8] text-xs md:text-sm">Free cancellation</span>
-                </div>
-                <div className="flex items-center gap-2 md:gap-3 p-1.5 md:p-2">
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-[#C9A84C]/20 flex items-center justify-center">
-                    <FiCheckCircle className="text-[#C9A84C]" size={12} />
-                  </div>
-                  <span className="text-[#F5F0E8] text-xs md:text-sm">Earn miles</span>
-                </div>
-                <div className="flex items-center gap-2 md:gap-3 p-1.5 md:p-2">
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-[#C9A84C]/20 flex items-center justify-center">
-                    <FiCheckCircle className="text-[#C9A84C]" size={12} />
-                  </div>
-                  <span className="text-[#F5F0E8] text-xs md:text-sm">24/7 support</span>
-                </div>
+                ))}
               </div>
               
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 md:gap-4">
                 <button
                   onClick={() => navigate('/register')}
-                  className="group px-5 md:px-8 py-3 md:py-4 bg-linear-to-r from-[#C9A84C] to-[#E8C97A] rounded-xl md:rounded-2xl text-[#0A0E1A] font-bold text-sm md:text-lg hover:shadow-2xl hover:shadow-[#C9A84C]/30 transition-all duration-300 flex items-center gap-2"
+                  className="group px-5 md:px-8 py-3 md:py-4 bg-linear
+-to-r from-[#C9A84C] to-[#E8C97A] rounded-xl md:rounded-2xl text-[#0A0E1A] font-bold text-sm md:text-lg hover:shadow-2xl hover:shadow-[#C9A84C]/30 transition-all duration-300 flex items-center gap-2"
                 >
                   Book Your Flight
                   <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
@@ -362,7 +401,6 @@ const LandingPage = () => {
                 <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-[#E8C97A]/20 rounded-full blur-3xl animate-pulse"></div>
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <video
-                    ref={heroVideoRef}
                     className="w-full h-auto"
                     poster="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=600&h=400&fit=crop"
                     autoPlay
@@ -378,84 +416,49 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-        
-       
       </section>
       
       {/* ABOUT SECTION */}
       <section id="about" className="py-16 md:py-24 bg-[#0F1420] overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
-            
-            {/* TEXT */}
             <div className="animate-on-scroll opacity-0 translate-y-6 md:translate-y-0 md:-translate-x-5 transition-all duration-700 text-center lg:text-left">
-              <span className="text-[#C9A84C] text-xs md:text-sm font-semibold uppercase tracking-wider">
-                About Us
-              </span>
-
+              <span className="text-[#C9A84C] text-xs md:text-sm font-semibold uppercase tracking-wider">About Us</span>
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2 mb-4 md:mb-6">
                 Your Trusted Partner in Global Aviation
               </h2>
-
               <p className="text-[#B0B7C8] mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
                 Founded by aviation enthusiasts, 123RESERVE has revolutionized the way travelers book flights.
                 We combine cutting-edge technology with deep industry expertise to deliver the best booking experience.
               </p>
-
               <p className="text-[#B0B7C8] mb-6 md:mb-8 leading-relaxed text-sm md:text-base">
                 Our mission is to make air travel accessible, affordable, and enjoyable for everyone.
                 With partnerships across 125+ airlines and 350+ destinations worldwide, we're committed to
                 getting you where you need to go.
               </p>
-
-              {/* STATS */}
               <div className="flex justify-center lg:justify-start gap-6">
-                <div>
-                  <div className="text-xl md:text-2xl font-bold text-[#C9A84C]">1M+</div>
-                  <div className="text-[#8B92A5] text-xs md:text-sm">Happy Flyers</div>
-                </div>
-                <div>
-                  <div className="text-xl md:text-2xl font-bold text-[#C9A84C]">4.9★</div>
-                  <div className="text-[#8B92A5] text-xs md:text-sm">Average Rating</div>
-                </div>
-                <div>
-                  <div className="text-xl md:text-2xl font-bold text-[#C9A84C]">10+</div>
-                  <div className="text-[#8B92A5] text-xs md:text-sm">Years Experience</div>
-                </div>
+                {[['1M+', 'Happy Flyers'], ['4.9★', 'Average Rating'], ['10+', 'Years Experience']].map(([val, label]) => (
+                  <div key={label}>
+                    <div className="text-xl md:text-2xl font-bold text-[#C9A84C]">{val}</div>
+                    <div className="text-[#8B92A5] text-xs md:text-sm">{label}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* IMAGES */}
             <div className="animate-on-scroll opacity-0 translate-y-6 md:translate-y-0 md:translate-x-5 transition-all duration-700 delay-200">
               <div className="grid grid-cols-2 gap-3 md:gap-4 w-full">
-                <img
-                  src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&h=300&fit=crop"
-                  alt="Airplane wing"
-                  className="w-full h-32 md:h-48 object-cover rounded-xl md:rounded-2xl shadow-xl"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=400&h=300&fit=crop"
-                  alt="Travel"
-                  className="w-full h-32 md:h-48 object-cover rounded-xl md:rounded-2xl shadow-xl mt-4 md:mt-8"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=300&fit=crop"
-                  alt="Airport"
-                  className="w-full h-32 md:h-48 object-cover rounded-xl md:rounded-2xl shadow-xl"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=400&h=300&fit=crop"
-                  alt="Flight attendant"
-                  className="w-full h-32 md:h-48 object-cover rounded-xl md:rounded-2xl shadow-xl mt-4 md:mt-8"
-                />
+                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&h=300&fit=crop" alt="Airplane wing" className="w-full h-32 md:h-48 object-cover rounded-xl md:rounded-2xl shadow-xl" />
+                <img src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=400&h=300&fit=crop" alt="Travel" className="w-full h-32 md:h-48 object-cover rounded-xl md:rounded-2xl shadow-xl mt-4 md:mt-8" />
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=300&fit=crop" alt="Airport" className="w-full h-32 md:h-48 object-cover rounded-xl md:rounded-2xl shadow-xl" />
+                <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=400&h=300&fit=crop" alt="Flight attendant" className="w-full h-32 md:h-48 object-cover rounded-xl md:rounded-2xl shadow-xl mt-4 md:mt-8" />
               </div>
             </div>
-
           </div>
         </div>
       </section>
       
-      {/* SERVICES SECTION with Video Background */}
+      {/* SERVICES SECTION */}
       <section id="services" className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video
@@ -476,9 +479,7 @@ const LandingPage = () => {
           <div className="text-center mb-12 md:mb-16">
             <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700">
               <span className="text-[#C9A84C] text-xs md:text-sm font-semibold uppercase tracking-wider">What We Offer</span>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2">
-                Premium Flight Services
-              </h2>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2">Premium Flight Services</h2>
               <p className="text-[#B0B7C8] mt-3 md:mt-4 max-w-2xl mx-auto text-sm md:text-base">
                 Experience seamless air travel with our comprehensive range of flight services
               </p>
@@ -491,7 +492,7 @@ const LandingPage = () => {
               return (
                 <div
                   key={idx}
-                  className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 bg-[#1C2438]/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border border-[#252E44] hover:border-[#C9A84C]/50 hover:transform hover:-translate-y-2 transition-all duration-300 group"
+                  className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 bg-[#1C2438]/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border border-[#252E44] hover:border-[#C9A84C]/50 hover:-translate-y-2 group"
                   style={{ transitionDelay: `${idx * 0.1}s` }}
                 >
                   <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg md:rounded-xl bg-[#C9A84C]/20 flex items-center justify-center mb-3 md:mb-5 group-hover:scale-110 transition-transform">
@@ -512,9 +513,7 @@ const LandingPage = () => {
           <div className="text-center mb-12 md:mb-16">
             <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700">
               <span className="text-[#C9A84C] text-xs md:text-sm font-semibold uppercase tracking-wider">Travel in Style</span>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2">
-                Choose Your Cabin Class
-              </h2>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2">Choose Your Cabin Class</h2>
               <p className="text-[#8B92A5] mt-3 md:mt-4 max-w-2xl mx-auto text-sm md:text-base">
                 From budget-friendly to ultra-luxury, find the perfect cabin for your journey
               </p>
@@ -527,11 +526,11 @@ const LandingPage = () => {
               return (
                 <div
                   key={idx}
-                  className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 bg-[#1C2438] rounded-xl md:rounded-2xl p-4 md:p-6 border border-[#252E44] hover:border-[#C9A84C]/50 hover:transform hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+                  className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 bg-[#1C2438] rounded-xl md:rounded-2xl p-4 md:p-6 border border-[#252E44] hover:border-[#C9A84C]/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer"
                   style={{ transitionDelay: `${idx * 0.1}s` }}
                   onClick={() => navigate('/user-dashboard/flights')}
                 >
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-[#C9A84C]/20 flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-[#C9A84C]/20 flex items-center justify-center mb-3 md:mb-4">
                     <Icon className="text-[#C9A84C]" size={20} />
                   </div>
                   <h3 className="text-base md:text-lg font-bold text-[#F5F0E8] mb-1">{cabin.name}</h3>
@@ -557,9 +556,7 @@ const LandingPage = () => {
           <div className="text-center mb-12 md:mb-16">
             <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700">
               <span className="text-[#C9A84C] text-xs md:text-sm font-semibold uppercase tracking-wider">Testimonials</span>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2">
-                What Our Flyers Say
-              </h2>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2">What Our Flyers Say</h2>
               <p className="text-[#8B92A5] mt-3 md:mt-4 max-w-2xl mx-auto text-sm md:text-base">
                 Join thousands of satisfied travelers who trust us with their journeys
               </p>
@@ -573,7 +570,7 @@ const LandingPage = () => {
                 style={{ transform: `translateX(-${activeTestimonial * 100}%)` }}
               >
                 {testimonials.map((testimonial, idx) => (
-                  <div key={idx} className="w-full flex-shrink-0 px-2 md:px-4">
+                  <div key={idx} className="w-full shrink-0 px-2 md:px-4">
                     <div className="bg-[#1C2438] rounded-xl md:rounded-2xl p-6 md:p-8 border border-[#252E44] max-w-2xl mx-auto">
                       <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
                         <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover" />
@@ -599,8 +596,8 @@ const LandingPage = () => {
                 <button
                   key={idx}
                   onClick={() => setActiveTestimonial(idx)}
-                  className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-300 ${
-                    activeTestimonial === idx ? 'w-6 md:w-8 bg-[#C9A84C]' : 'bg-[#252E44]'
+                  className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
+                    activeTestimonial === idx ? 'w-6 md:w-8 bg-[#C9A84C]' : 'w-1.5 md:w-2 bg-[#252E44]'
                   }`}
                 />
               ))}
@@ -612,16 +609,10 @@ const LandingPage = () => {
       {/* CONTACT SECTION */}
       <section id="contact" className="py-16 md:py-24 overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* HEADER */}
           <div className="text-center mb-12 md:mb-16">
             <div className="animate-on-scroll opacity-0 translate-y-6 transition-all duration-700">
-              <span className="text-[#C9A84C] text-xs md:text-sm font-semibold uppercase tracking-wider">
-                Get In Touch
-              </span>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2">
-                Contact Our Flight Experts
-              </h2>
+              <span className="text-[#C9A84C] text-xs md:text-sm font-semibold uppercase tracking-wider">Get In Touch</span>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5F0E8] mt-2">Contact Our Flight Experts</h2>
               <p className="text-[#8B92A5] mt-3 md:mt-4 max-w-2xl mx-auto text-sm md:text-base">
                 Have questions? We're here to help you 24/7 with your travel needs
               </p>
@@ -629,116 +620,99 @@ const LandingPage = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-            
-            {/* FORM */}
             <div className="animate-on-scroll opacity-0 translate-y-6 md:translate-y-0 md:-translate-x-5 transition-all duration-700">
-              <div className="bg-linear-to-br from-[#1C2438] to-[#141B2B] rounded-xl md:rounded-2xl p-5 md:p-8 border border-[#252E44] shadow-2xl">
-                
-                <h3 className="text-xl md:text-2xl font-bold text-[#F5F0E8] mb-2">
-                  Send us a message
-                </h3>
-                <p className="text-[#8B92A5] text-sm md:text-base mb-6">
-                  Fill out the form and we'll get back to you within 24 hours
-                </p>
+              <div className="bg-linear
+-to-br from-[#1C2438] to-[#141B2B] rounded-xl md:rounded-2xl p-5 md:p-8 border border-[#252E44] shadow-2xl">
+                <h3 className="text-xl md:text-2xl font-bold text-[#F5F0E8] mb-2">Send us a message</h3>
+                <p className="text-[#8B92A5] text-sm md:text-base mb-6">Fill out the form and we'll get back to you within 24 hours</p>
 
                 <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
-                  
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Your Full Name"
-                    className="w-full px-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm placeholder-[#8B92A5] focus:outline-none focus:border-[#C9A84C]"
-                  />
-                  {formErrors.name && <p className="text-red-500 text-xs">{formErrors.name}</p>}
-
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="Email Address"
-                    className="w-full px-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm placeholder-[#8B92A5] focus:outline-none focus:border-[#C9A84C]"
-                  />
-                  {formErrors.email && <p className="text-red-500 text-xs">{formErrors.email}</p>}
-
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="Subject"
-                    className="w-full px-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm placeholder-[#8B92A5] focus:outline-none focus:border-[#C9A84C]"
-                  />
-                  {formErrors.subject && <p className="text-red-500 text-xs">{formErrors.subject}</p>}
-
-                  <textarea
-                    name="message"
-                    rows="4"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Your Message"
-                    className="w-full px-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm placeholder-[#8B92A5] focus:outline-none focus:border-[#C9A84C] resize-none"
-                  ></textarea>
-                  {formErrors.message && <p className="text-red-500 text-xs">{formErrors.message}</p>}
-
-                  <button 
+                  <div>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Your Full Name"
+                      className="w-full px-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm placeholder-[#8B92A5] focus:outline-none focus:border-[#C9A84C]"
+                    />
+                    {formErrors.name && <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>}
+                  </div>
+                  <div>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="Email Address"
+                      className="w-full px-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm placeholder-[#8B92A5] focus:outline-none focus:border-[#C9A84C]"
+                    />
+                    {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      placeholder="Subject"
+                      className="w-full px-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm placeholder-[#8B92A5] focus:outline-none focus:border-[#C9A84C]"
+                    />
+                    {formErrors.subject && <p className="text-red-500 text-xs mt-1">{formErrors.subject}</p>}
+                  </div>
+                  <div>
+                    <textarea
+                      name="message"
+                      rows="4"
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Your Message"
+                      className="w-full px-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm placeholder-[#8B92A5] focus:outline-none focus:border-[#C9A84C] resize-none"
+                    ></textarea>
+                    {formErrors.message && <p className="text-red-500 text-xs mt-1">{formErrors.message}</p>}
+                  </div>
+                  <button
                     type="submit"
-                    className="w-full py-3 bg-linear-to-r from-[#C9A84C] to-[#E8C97A] rounded-xl text-[#0A0E1A] font-bold text-sm md:text-base hover:shadow-lg hover:shadow-[#C9A84C]/30 transition-all duration-300"
+                    className="w-full py-3 bg-linear
+-to-r from-[#C9A84C] to-[#E8C97A] rounded-xl text-[#0A0E1A] font-bold text-sm md:text-base hover:shadow-lg hover:shadow-[#C9A84C]/30 transition-all duration-300"
                   >
                     Send Message
                   </button>
-
                 </form>
               </div>
             </div>
 
-            {/* CONTACT INFO */}
             <div className="animate-on-scroll opacity-0 translate-y-6 md:translate-y-0 md:translate-x-5 transition-all duration-700 delay-200">
-              <div className="bg-linear-to-br from-[#1C2438] to-[#141B2B] rounded-xl md:rounded-2xl p-5 md:p-8 border border-[#252E44] shadow-2xl">
-                
-                <h3 className="text-xl md:text-2xl font-bold text-[#F5F0E8] mb-2">
-                  Contact Information
-                </h3>
-
+              <div className="bg-linear
+-to-br from-[#1C2438] to-[#141B2B] rounded-xl md:rounded-2xl p-5 md:p-8 border border-[#252E44] shadow-2xl">
+                <h3 className="text-xl md:text-2xl font-bold text-[#F5F0E8] mb-2">Contact Information</h3>
                 <div className="space-y-5 mt-6">
-                  
-                  <div className="p-4 bg-[#0F1420] rounded-xl">
-                    <p className="text-[#C9A84C] text-sm font-semibold">Address</p>
-                    <p className="text-[#F5F0E8] text-sm">123 Aviation Avenue, New York</p>
-                  </div>
-
-                  <div className="p-4 bg-[#0F1420] rounded-xl">
-                    <p className="text-[#C9A84C] text-sm font-semibold">Email</p>
-                    <p className="text-[#F5F0E8] text-sm">support@123reserve.com</p>
-                  </div>
-
-                  <div className="p-4 bg-[#0F1420] rounded-xl">
-                    <p className="text-[#C9A84C] text-sm font-semibold">Phone</p>
-                    <p className="text-[#F5F0E8] text-sm">+1 (555) FLY-1234</p>
-                  </div>
-
+                  {[
+                    { label: 'Address', value: '123 Aviation Avenue, New York' },
+                    { label: 'Email', value: 'support@123reserve.com' },
+                    { label: 'Phone', value: '+1 (555) FLY-1234' },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="p-4 bg-[#0F1420] rounded-xl">
+                      <p className="text-[#C9A84C] text-sm font-semibold">{label}</p>
+                      <p className="text-[#F5F0E8] text-sm">{value}</p>
+                    </div>
+                  ))}
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
       </section>
       
       {/* CTA Section */}
-      <section className="py-12 md:py-20 bg-linear-to-r from-[#C9A84C]/10 to-transparent border-y border-[#C9A84C]/20">
+      <section className="py-12 md:py-20 bg-linear
+-to-r from-[#C9A84C]/10 to-transparent border-y border-[#C9A84C]/20">
         <div className="max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <div className="animate-on-scroll opacity-0 scale-95 transition-all duration-700">
             <GiAirplaneDeparture className="text-4xl md:text-5xl text-[#C9A84C] mx-auto mb-3 md:mb-4" />
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-[#F5F0E8] mb-3 md:mb-4">
-              Ready for Takeoff?
-            </h2>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-[#F5F0E8] mb-3 md:mb-4">Ready for Takeoff?</h2>
             <p className="text-[#8B92A5] text-sm md:text-lg mb-6 md:mb-8 max-w-2xl mx-auto">
-              Join thousands of flyers who have discovered the easiest way to book flights.
-              Your next adventure awaits!
+              Join thousands of flyers who have discovered the easiest way to book flights. Your next adventure awaits!
             </p>
             <div className="flex flex-wrap justify-center gap-3 md:gap-4">
               <button
@@ -776,18 +750,11 @@ const LandingPage = () => {
                 Your trusted aviation booking platform for seamless flight reservations worldwide.
               </p>
               <div className="flex justify-center sm:justify-start gap-3">
-                <a href="#" className="p-1.5 md:p-2 rounded-lg bg-[#1C2438] text-[#8B92A5] hover:text-[#C9A84C] transition-colors">
-                  <FiFacebook size={14} />
-                </a>
-                <a href="#" className="p-1.5 md:p-2 rounded-lg bg-[#1C2438] text-[#8B92A5] hover:text-[#C9A84C] transition-colors">
-                  <FiTwitter size={14} />
-                </a>
-                <a href="#" className="p-1.5 md:p-2 rounded-lg bg-[#1C2438] text-[#8B92A5] hover:text-[#C9A84C] transition-colors">
-                  <FiInstagram size={14} />
-                </a>
-                <a href="#" className="p-1.5 md:p-2 rounded-lg bg-[#1C2438] text-[#8B92A5] hover:text-[#C9A84C] transition-colors">
-                  <FiLinkedin size={14} />
-                </a>
+                {[FiFacebook, FiTwitter, FiInstagram, FiLinkedin].map((Icon, i) => (
+                  <a key={i} href="#" className="p-1.5 md:p-2 rounded-lg bg-[#1C2438] text-[#8B92A5] hover:text-[#C9A84C] transition-colors">
+                    <Icon size={14} />
+                  </a>
+                ))}
               </div>
             </div>
             
@@ -807,10 +774,9 @@ const LandingPage = () => {
             <div className="text-center sm:text-left">
               <h3 className="text-[#F5F0E8] font-bold mb-3 md:mb-4 text-sm md:text-base">Support</h3>
               <ul className="space-y-1.5 md:space-y-2">
-                <li><a href="#" className="text-[#8B92A5] hover:text-[#C9A84C] transition-colors text-xs md:text-sm">Help Center</a></li>
-                <li><a href="#" className="text-[#8B92A5] hover:text-[#C9A84C] transition-colors text-xs md:text-sm">Flight Status</a></li>
-                <li><a href="#" className="text-[#8B92A5] hover:text-[#C9A84C] transition-colors text-xs md:text-sm">Terms of Service</a></li>
-                <li><a href="#" className="text-[#8B92A5] hover:text-[#C9A84C] transition-colors text-xs md:text-sm">Privacy Policy</a></li>
+                {['Help Center', 'Flight Status', 'Terms of Service', 'Privacy Policy'].map((link) => (
+                  <li key={link}><a href="#" className="text-[#8B92A5] hover:text-[#C9A84C] transition-colors text-xs md:text-sm">{link}</a></li>
+                ))}
               </ul>
             </div>
             
@@ -818,16 +784,13 @@ const LandingPage = () => {
               <h3 className="text-[#F5F0E8] font-bold mb-3 md:mb-4 text-sm md:text-base">Contact Info</h3>
               <ul className="space-y-2 md:space-y-3">
                 <li className="flex items-center justify-center sm:justify-start gap-2 md:gap-3 text-[#8B92A5] text-xs md:text-sm">
-                  <FiMap size={14} className="text-[#C9A84C]" />
-                  <span>123 Aviation Ave, NY 10001</span>
+                  <FiMap size={14} className="text-[#C9A84C]" /><span>123 Aviation Ave, NY 10001</span>
                 </li>
                 <li className="flex items-center justify-center sm:justify-start gap-2 md:gap-3 text-[#8B92A5] text-xs md:text-sm">
-                  <FiMail size={14} className="text-[#C9A84C]" />
-                  <span>support@123reserve.com</span>
+                  <FiMail size={14} className="text-[#C9A84C]" /><span>support@123reserve.com</span>
                 </li>
                 <li className="flex items-center justify-center sm:justify-start gap-2 md:gap-3 text-[#8B92A5] text-xs md:text-sm">
-                  <FiPhone size={14} className="text-[#C9A84C]" />
-                  <span>+1 (555) FLY-1234</span>
+                  <FiPhone size={14} className="text-[#C9A84C]" /><span>+1 (555) FLY-1234</span>
                 </li>
               </ul>
             </div>

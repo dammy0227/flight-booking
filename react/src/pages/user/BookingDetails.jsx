@@ -145,9 +145,13 @@ const BookingDetails = () => {
   }
 
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full min-h-screen overflow-y-auto bg-linear-to-br from-[#0A0E1A] to-[#141A2A]">
+      {/* Top padding spacer for fixed headers */}
+      <div className="h-4 md:h-6 lg:h-8"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div className="space-y-6">
+          {/* Back Button - Now visible at the top */}
           <div className="flex items-center justify-between">
             <button
               onClick={() => navigate('/user-dashboard/bookings')}
@@ -158,6 +162,7 @@ const BookingDetails = () => {
             </button>
           </div>
 
+          {/* Status Banner */}
           <div className={`p-6 rounded-2xl border ${statusConfig.borderColor} bg-linear-to-r ${isPaid ? 'from-[#10B981]/10' : 'from-[#F59E0B]/10'} to-transparent backdrop-blur-sm`}>
             <div className="flex items-center gap-4">
               <div className={`p-3 rounded-2xl ${statusConfig.bgColor}`}>
@@ -180,8 +185,11 @@ const BookingDetails = () => {
             </div>
           </div>
 
+          {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Column */}
             <div className="lg:col-span-2 space-y-6">
+              {/* Booking Information */}
               <div className="bg-[#1C2438]/50 backdrop-blur-sm rounded-2xl border border-[#252E44] overflow-hidden">
                 <div className="bg-linear-to-r from-[#C9A84C]/10 to-transparent p-6">
                   <div className="flex items-center gap-3 mb-4">
@@ -231,6 +239,7 @@ const BookingDetails = () => {
                 </div>
               </div>
 
+              {/* Travel Details */}
               {booking.travelDetails && (
                 <div className="bg-[#1C2438]/50 backdrop-blur-sm rounded-2xl border border-[#252E44] p-6">
                   <div className="flex items-center gap-3 mb-4">
@@ -243,10 +252,12 @@ const BookingDetails = () => {
                     </div>
                   </div>
                   <div className="space-y-3">
+                    {/* Travel details content would go here */}
                   </div>
                 </div>
               )}
 
+              {/* Add-ons */}
               {booking.addons && booking.addons.length > 0 && (
                 <div className="bg-[#1C2438]/50 backdrop-blur-sm rounded-2xl border border-[#252E44] p-6">
                   <div className="flex items-center gap-3 mb-4">
@@ -270,6 +281,7 @@ const BookingDetails = () => {
               )}
             </div>
 
+            {/* Right Column - Payment Summary */}
             <div className="space-y-6">
               <div className="bg-[#1C2438]/50 backdrop-blur-sm rounded-2xl border border-[#252E44] overflow-hidden sticky top-8">
                 <div className="p-6 border-b border-[#252E44] bg-linear-to-r from-[#C9A84C]/5 to-transparent">
@@ -332,6 +344,7 @@ const BookingDetails = () => {
                 </div>
               </div>
 
+              {/* Receipt Section */}
               {isPaid && (
                 <div className="bg-linear-to-br from-[#1C2438] to-[#0F1420] rounded-2xl border border-[#C9A84C]/30 p-6">
                   <div className="flex justify-between items-center mb-4">
@@ -391,6 +404,7 @@ const BookingDetails = () => {
             </div>
           </div>
 
+          {/* Action Buttons */}
           <div className="flex gap-3 pt-4">
             {!isPaid && (
               <button
@@ -409,6 +423,9 @@ const BookingDetails = () => {
           </div>
         </div>
       </div>
+      
+      {/* Bottom padding spacer */}
+      <div className="h-4 md:h-6 lg:h-8"></div>
     </div>
   );
 };

@@ -48,7 +48,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     await dispatch(logoutUser());
-    navigate('/login');
+    navigate('/admin/login');
   };
 
   const isActive = (path) => location.pathname === path;
