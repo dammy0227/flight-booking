@@ -80,7 +80,7 @@ const HotelDetails = () => {
 
   if (loading && !hotel) {
     return (
-      <div className="flex items-center justify-center min-h-100">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <FiLoader className="animate-spin text-[#C9A84C]" size={48} />
       </div>
     );
@@ -88,16 +88,20 @@ const HotelDetails = () => {
 
   if (!hotel) {
     return (
-      <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-8 sm:p-12 text-center">
-        <FiHome className="text-6xl mx-auto mb-4 text-[#8B92A5]" />
-        <h3 className="text-[#F5F0E8] text-xl font-semibold mb-2">Hotel not found</h3>
-        <p className="text-[#8B92A5] text-sm mb-4">The hotel you're looking for doesn't exist</p>
-        <button
-          onClick={() => navigate('/user-dashboard/hotels')}
-          className="px-6 py-2.5 bg-[#C9A84C] rounded-xl text-[#0A0E1A] text-sm font-semibold hover:bg-[#E8C97A] transition-colors"
-        >
-          Back to Hotels
-        </button>
+      <div className="min-h-screen bg-white">
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <div className="bg-gray-50 rounded-xl border border-gray-100 p-8 sm:p-12 text-center">
+            <FiHome className="text-5xl mx-auto mb-4 text-gray-300" />
+            <h3 className="text-gray-800 text-xl font-semibold mb-2">Hotel not found</h3>
+            <p className="text-gray-500 text-sm mb-5">The hotel you're looking for doesn't exist</p>
+            <button
+              onClick={() => navigate('/user-dashboard/hotels')}
+              className="px-6 py-2.5 bg-[#C9A84C] rounded-xl text-white text-sm font-semibold hover:bg-[#B8922E] transition-colors"
+            >
+              Back to Hotels
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -106,185 +110,197 @@ const HotelDetails = () => {
   const images = hotel.images || [];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-4 sm:py-6">
-      <div className="space-y-4 sm:space-y-5">
-        <button
-          onClick={() => navigate('/user-dashboard/hotels')}
-          className="flex items-center gap-2 text-[#8B92A5] hover:text-[#C9A84C] transition-colors group"
-        >
-          <FiArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm">Back to Hotels</span>
-        </button>
+    <div className="min-h-screen">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="space-y-5">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('/user-dashboard/hotels')}
+            className="flex items-center gap-2 text-gray-500 hover:text-[#C9A84C] transition-colors group"
+          >
+            <FiArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <span className="text-sm">Back to Hotels</span>
+          </button>
 
-        <div className="bg-linear-to-r from-[#1C2438] to-[#0F1420] rounded-2xl border border-[#252E44] p-4 sm:p-5">
-          <div className="flex flex-wrap justify-between items-start gap-4">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 sm:gap-3 mb-2">
-                <h1 className="text-xl sm:text-2xl font-bold text-[#F5F0E8]">{hotel.name}</h1>
-                <button 
-                  onClick={() => setLiked(!liked)}
-                  className="p-1.5 sm:p-2 rounded-full bg-[#0F1420] hover:bg-[#C9A84C]/20 transition-colors"
-                >
-                  <FiHeart size={16} className={liked ? 'text-[#C9A84C] fill-[#C9A84C]' : 'text-[#8B92A5]'} />
-                </button>
+          {/* Header Card */}
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+            <div className="flex flex-wrap justify-between items-start gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-800">{hotel.name}</h1>
+                  <button 
+                    onClick={() => setLiked(!liked)}
+                    className="p-1.5 rounded-full bg-gray-50 hover:bg-[#C9A84C]/10 transition-colors"
+                  >
+                    <FiHeart size={16} className={liked ? 'text-[#C9A84C] fill-[#C9A84C]' : 'text-gray-400'} />
+                  </button>
+                </div>
+                <div className="flex flex-wrap items-center gap-3 text-sm">
+                  <div className="flex items-center gap-1">
+                    <FiMapPin size={14} className="text-gray-400" />
+                    <p className="text-gray-500">{hotel.city}</p>
+                  </div>
+                  <div className="flex items-center gap-1 px-2 py-0.5 bg-[#C9A84C]/10 rounded-lg">
+                    <FiStar size={12} className="text-[#C9A84C] fill-[#C9A84C]" />
+                    <span className="text-[#C9A84C] font-semibold text-sm">{hotel.rating?.toFixed(1) || '4.5'}</span>
+                  </div>
+                  <div className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${
+                    isAvailable ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+                  }`}>
+                    {isAvailable ? `${hotel.roomsAvailable} rooms available` : 'Sold Out'}
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm">
-                <div className="flex items-center gap-1">
-                  <FiMapPin size={14} className="text-[#8B92A5]" />
-                  <p className="text-[#8B92A5]">{hotel.city}</p>
-                </div>
-                <div className="flex items-center gap-1 px-2 py-0.5 bg-[#C9A84C]/10 rounded-lg">
-                  <FiStar size={12} className="text-[#C9A84C] fill-[#C9A84C]" />
-                  <span className="text-[#C9A84C] font-semibold text-xs sm:text-sm">{hotel.rating?.toFixed(1) || '4.5'}</span>
-                </div>
-                <div className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${
-                  isAvailable ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
-                }`}>
-                  {isAvailable ? `${hotel.roomsAvailable} rooms available` : 'Sold Out'}
-                </div>
+              <div className="text-right">
+                <p className="text-gray-500 text-xs">Price per night</p>
+                <p className="text-2xl font-bold text-[#C9A84C]">${hotel.price}</p>
               </div>
-            </div>
-            <div className="text-right">
-              <p className="text-[#8B92A5] text-xs">Price per night</p>
-              <p className="text-xl sm:text-2xl font-bold text-[#E8C97A]">${hotel.price}</p>
             </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-          <div className="lg:col-span-2 space-y-3">
-            <div className="bg-[#1C2438] rounded-xl overflow-hidden border border-[#252E44]">
-              <img 
-                src={images[selectedImage]?.url || 'https://via.placeholder.com/800x400?text=Hotel+Image'}
-                alt={hotel.name}
-                className="w-full h-56 sm:h-64 md:h-80 object-cover"
-              />
+          {/* Image Gallery */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <div className="lg:col-span-2 space-y-3">
+              <div className="bg-gray-100 rounded-xl overflow-hidden">
+                <img 
+                  src={images[selectedImage]?.url || 'https://via.placeholder.com/800x400?text=Hotel+Image'}
+                  alt={hotel.name}
+                  className="w-full h-56 sm:h-64 md:h-80 object-cover"
+                />
+              </div>
+              
+              {images.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto pb-1">
+                  {images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedImage(idx)}
+                      className={`shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                        selectedImage === idx ? 'border-[#C9A84C]' : 'border-gray-200 hover:border-[#C9A84C]/50'
+                      }`}
+                    >
+                      <img src={img.url} alt={`${hotel.name} ${idx + 1}`} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-            
-            {images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                {images.map((img, idx) => (
+
+            {/* Right Sidebar */}
+            <div className="space-y-4">
+              {/* Quick Info Card */}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                  <FiInfo className="text-[#C9A84C]" size={14} />
+                  Quick Info
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 text-sm">
+                    <FiPhone className="text-[#C9A84C]" size={14} />
+                    <span className="text-gray-500 text-sm">{hotel.phone || '+1 234 567 890'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <FiMail className="text-[#C9A84C]" size={14} />
+                    <span className="text-gray-500 text-sm truncate">{hotel.email || 'info@hotel.com'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <FiGlobe className="text-[#C9A84C]" size={14} />
+                    <span className="text-gray-500 text-sm truncate">{hotel.website || 'www.hotel.com'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm pt-3 border-t border-gray-100">
+                    <FiClock className="text-[#C9A84C]" size={14} />
+                    <span className="text-gray-500 text-sm">Check-in: 2:00 PM • Check-out: 12:00 PM</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Special Offer Card */}
+              <div className="bg-linear-to-br from-[#FEF8E7] to-white rounded-xl border border-[#C9A84C]/30 p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <FiAward className="text-[#C9A84C]" size={16} />
+                  <h3 className="text-sm font-bold text-gray-800">Special Offer</h3>
+                </div>
+                <p className="text-gray-500 text-sm">Book now and get 10% off on your first stay!</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Description */}
+          {hotel.description && (
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+              <h2 className="text-base font-bold text-gray-800 mb-2 flex items-center gap-2">
+                <FiCompass className="text-[#C9A84C]" size={16} />
+                About This Hotel
+              </h2>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {showFullDescription ? hotel.description : `${hotel.description.slice(0, 200)}...`}
+                {hotel.description.length > 200 && (
                   <button
-                    key={idx}
-                    onClick={() => setSelectedImage(idx)}
-                    className={`shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                      selectedImage === idx ? 'border-[#C9A84C]' : 'border-[#252E44] hover:border-[#C9A84C]/50'
-                    }`}
+                    onClick={() => setShowFullDescription(!showFullDescription)}
+                    className="text-[#C9A84C] ml-1 hover:underline text-sm"
                   >
-                    <img src={img.url} alt={`${hotel.name} ${idx + 1}`} className="w-full h-full object-cover" />
+                    {showFullDescription ? 'Show less' : 'Read more'}
                   </button>
+                )}
+              </p>
+            </div>
+          )}
+
+          {/* Amenities */}
+          {hotel.amenities && hotel.amenities.length > 0 && (
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+              <h2 className="text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <FiShield className="text-[#C9A84C]" size={16} />
+                Amenities
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {hotel.amenities.map((amenity, idx) => (
+                  <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                    {getAmenityIcon(amenity)}
+                    <span className="text-gray-700 text-sm">{amenity}</span>
+                  </div>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
-          <div className="space-y-3">
-            <div className="bg-[#1C2438] rounded-xl border border-[#252E44] p-4">
-              <h3 className="text-sm font-bold text-[#F5F0E8] mb-3 flex items-center gap-2">
-                <FiInfo className="text-[#C9A84C]" size={14} />
-                Quick Info
-              </h3>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm">
-                  <FiPhone className="text-[#C9A84C]" size={14} />
-                  <span className="text-[#8B92A5] text-xs">{hotel.phone || '+1 234 567 890'}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <FiMail className="text-[#C9A84C]" size={14} />
-                  <span className="text-[#8B92A5] text-xs truncate">{hotel.email || 'info@hotel.com'}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <FiGlobe className="text-[#C9A84C]" size={14} />
-                  <span className="text-[#8B92A5] text-xs truncate">{hotel.website || 'www.hotel.com'}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm pt-2 border-t border-[#252E44]">
-                  <FiClock className="text-[#C9A84C]" size={14} />
-                  <span className="text-[#8B92A5] text-xs">Check-in: 2:00 PM • Check-out: 12:00 PM</span>
-                </div>
+          {/* Location */}
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="p-5 border-b border-gray-100">
+              <h2 className="text-base font-bold text-gray-800 flex items-center gap-2">
+                <FiMapPin className="text-[#C9A84C]" size={16} />
+                Location
+              </h2>
+            </div>
+            <div className="bg-gray-50 h-48 flex items-center justify-center">
+              <div className="text-center px-4">
+                <FiMapPin size={32} className="text-[#C9A84C] mx-auto mb-2" />
+                <p className="text-gray-800 font-semibold text-sm">{hotel.name}</p>
+                <p className="text-gray-500 text-sm mt-1">{hotel.city}, {hotel.address}</p>
               </div>
             </div>
+          </div>
 
-            <div className="bg-linear-to-br from-[#C9A84C]/10 to-transparent rounded-xl border border-[#C9A84C]/20 p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <FiAward className="text-[#C9A84C]" size={16} />
-                <h3 className="text-sm font-bold text-[#F5F0E8]">Special Offer</h3>
+          {/* Book Button */}
+          <div className="bg-linear-to-r from-[#FEF8E7] to-transparent rounded-xl p-5 border border-[#C9A84C]/30">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="text-center sm:text-left">
+                <h2 className="text-base font-bold text-gray-800">Book Your Stay</h2>
+                <p className="text-gray-500 text-sm">Explore available rooms and special rates</p>
               </div>
-              <p className="text-[#8B92A5] text-xs">Book now and get 10% off on your first stay!</p>
+              <button
+                onClick={handleViewRooms}
+                disabled={!isAvailable}
+                className={`px-6 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 ${
+                  isAvailable
+                    ? 'bg-[#C9A84C] text-white hover:bg-[#B8922E] transform hover:scale-[1.02] shadow-sm'
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                <FiKey size={16} />
+                View Available Rooms
+              </button>
             </div>
-          </div>
-        </div>
-
-        {hotel.description && (
-          <div className="bg-[#1C2438] rounded-xl border border-[#252E44] p-4">
-            <h2 className="text-base font-bold text-[#F5F0E8] mb-2 flex items-center gap-2">
-              <FiCompass className="text-[#C9A84C]" size={16} />
-              About This Hotel
-            </h2>
-            <p className="text-[#8B92A5] text-sm leading-relaxed">
-              {showFullDescription ? hotel.description : `${hotel.description.slice(0, 200)}...`}
-              {hotel.description.length > 200 && (
-                <button
-                  onClick={() => setShowFullDescription(!showFullDescription)}
-                  className="text-[#C9A84C] ml-1 hover:underline text-xs"
-                >
-                  {showFullDescription ? 'Show less' : 'Read more'}
-                </button>
-              )}
-            </p>
-          </div>
-        )}
-
-        {hotel.amenities && hotel.amenities.length > 0 && (
-          <div className="bg-[#1C2438] rounded-xl border border-[#252E44] p-4">
-            <h2 className="text-base font-bold text-[#F5F0E8] mb-3 flex items-center gap-2">
-              <FiShield className="text-[#C9A84C]" size={16} />
-              Amenities
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {hotel.amenities.map((amenity, idx) => (
-                <div key={idx} className="flex items-center gap-2 p-2 bg-[#0F1420] rounded-lg">
-                  {getAmenityIcon(amenity)}
-                  <span className="text-[#F5F0E8] text-xs">{amenity}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="bg-[#1C2438] rounded-xl border border-[#252E44] overflow-hidden">
-          <div className="p-4 border-b border-[#252E44]">
-            <h2 className="text-base font-bold text-[#F5F0E8] flex items-center gap-2">
-              <FiMapPin className="text-[#C9A84C]" size={16} />
-              Location
-            </h2>
-          </div>
-          <div className="bg-linear-to-br from-[#0F1420] to-[#1C2438] h-48 flex items-center justify-center">
-            <div className="text-center px-4">
-              <FiMapPin size={32} className="text-[#C9A84C] mx-auto mb-2" />
-              <p className="text-[#F5F0E8] font-semibold text-sm">{hotel.name}</p>
-              <p className="text-[#8B92A5] text-xs mt-1 wrap-break-words">{hotel.city}, {hotel.address}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-linear-to-r from-[#C9A84C]/10 to-transparent rounded-xl p-4 border border-[#C9A84C]/20">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-            <div className="text-center sm:text-left">
-              <h2 className="text-base font-bold text-[#F5F0E8]">Book Your Stay</h2>
-              <p className="text-[#8B92A5] text-xs">Explore available rooms and special rates</p>
-            </div>
-            <button
-              onClick={handleViewRooms}
-              disabled={!isAvailable}
-              className={`px-5 sm:px-6 py-2 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 ${
-                isAvailable
-                  ? 'bg-[#C9A84C] text-[#0A0E1A] hover:bg-[#E8C97A] transform hover:scale-[1.02]'
-                  : 'bg-[#252E44] text-[#8B92A5] cursor-not-allowed'
-              }`}
-            >
-              <FiKey size={16} />
-              View Available Rooms
-            </button>
           </div>
         </div>
       </div>

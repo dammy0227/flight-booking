@@ -329,7 +329,7 @@ const Rooms = () => {
 
     try {
       if (editingRoom) {
-        await dispatch(updateRoom({ id: editingRoom._id, data: submitData })).unwrap();
+        await dispatch(updateRoom({ id: editingRoom._id, formData: submitData })).unwrap();
       } else {
         await dispatch(createRoom(submitData)).unwrap();
       }

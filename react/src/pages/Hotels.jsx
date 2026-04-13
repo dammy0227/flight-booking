@@ -683,179 +683,190 @@ const Hotels = () => {
           message="Are you sure you want to delete this hotel? This action cannot be undone."
         />
 
+        {/* Edit/Create Modal - Now scrolls normally, no sticky header */}
         {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start sm:items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl my-2 sm:my-8">
-              <div className="sticky top-0 bg-white z-10 flex items-center justify-between p-6 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  {editingHotel ? "Edit Hotel" : "Add New Hotel"}
-                </h2>
-                <button
-                  onClick={closeModal}
-                  className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
-                >
-                  <FiX className="w-5 h-5" />
-                </button>
-              </div>
-
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    { label: "Hotel Name", field: "name" },
-                    { label: "City",       field: "city" },
-                  ].map(({ label, field }) => (
-                    <div key={field}>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        {label}
-                      </label>
-                      <input
-                        type="text"
-                        value={formData[field]}
-                        onChange={(e) =>
-                          setFormData({ ...formData, [field]: e.target.value })
-                        }
-                        required
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-                      />
-                    </div>
-                  ))}
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+            <div className="min-h-screen px-4 py-8 flex items-start justify-center">
+              <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl my-4">
+                {/* Modal Header - No longer sticky, scrolls with content */}
+                <div className="bg-white rounded-t-xl border-b border-gray-200">
+                  <div className="flex items-center justify-between p-6">
+                    <h2 className="text-xl font-semibold text-gray-900">
+                      {editingHotel ? "Edit Hotel" : "Add New Hotel"}
+                    </h2>
+                    <button
+                      onClick={closeModal}
+                      className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <FiX className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.address}
-                    onChange={(e) =>
-                      setFormData({ ...formData, address: e.target.value })
-                    }
-                    required
-                    className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description
-                  </label>
-                  <textarea
-                    value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
-                    rows={3}
-                    className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    { label: "Price per Night ($)", field: "price",          min: 0 },
-                    { label: "Rooms Available",     field: "roomsAvailable", min: 0 },
-                    { label: "Rating (0-5)",        field: "rating",         min: 0, max: 5, step: 0.1 },
-                  ].map(({ label, field, ...rest }) => (
-                    <div key={field}>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        {label}
-                      </label>
-                      <input
-                        type="number"
-                        value={formData[field]}
-                        onChange={(e) =>
-                          setFormData({ ...formData, [field]: e.target.value })
-                        }
-                        required
-                        {...rest}
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-                      />
-                    </div>
-                  ))}
+                {/* Modal Body - Scrollable */}
+                <div className="p-6 space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[
+                      { label: "Hotel Name", field: "name" },
+                      { label: "City",       field: "city" },
+                    ].map(({ label, field }) => (
+                      <div key={field}>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          {label}
+                        </label>
+                        <input
+                          type="text"
+                          value={formData[field]}
+                          onChange={(e) =>
+                            setFormData({ ...formData, [field]: e.target.value })
+                          }
+                          required
+                          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                        />
+                      </div>
+                    ))}
+                  </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Hotel Images
+                      Address
                     </label>
                     <input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="hidden"
-                      id="hotel-images"
+                      type="text"
+                      value={formData.address}
+                      onChange={(e) =>
+                        setFormData({ ...formData, address: e.target.value })
+                      }
+                      required
+                      className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
                     />
-                    <label
-                      htmlFor="hotel-images"
-                      className="flex items-center justify-center px-4 py-2.5 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-                    >
-                      <FiUpload className="w-5 h-5 mr-2 text-gray-500" />
-                      <span className="text-sm text-gray-600">Choose Images</span>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Description
                     </label>
+                    <textarea
+                      value={formData.description}
+                      onChange={(e) =>
+                        setFormData({ ...formData, description: e.target.value })
+                      }
+                      rows={3}
+                      className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                    />
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Amenities
-                  </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {AMENITY_OPTIONS.map((amenity) => (
-                      <label key={amenity} className="flex items-center space-x-2">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {[
+                      { label: "Price per Night ($)", field: "price",          min: 0 },
+                      { label: "Rooms Available",     field: "roomsAvailable", min: 0 },
+                      { label: "Rating (0-5)",        field: "rating",         min: 0, max: 5, step: 0.1 },
+                    ].map(({ label, field, ...rest }) => (
+                      <div key={field}>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          {label}
+                        </label>
                         <input
-                          type="checkbox"
-                          checked={formData.amenities.includes(amenity)}
-                          onChange={() => toggleAmenity(amenity)}
-                          className="w-4 h-4 text-orange-600 rounded border-gray-300 focus:ring-orange-500"
+                          type="number"
+                          value={formData[field]}
+                          onChange={(e) =>
+                            setFormData({ ...formData, [field]: e.target.value })
+                          }
+                          required
+                          {...rest}
+                          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
                         />
-                        <span className="text-sm text-gray-700">{amenity}</span>
-                      </label>
+                      </div>
                     ))}
-                  </div>
-                </div>
 
-                {imagePreviews.length > 0 && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Hotel Images
+                      </label>
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="hidden"
+                        id="hotel-images"
+                      />
+                      <label
+                        htmlFor="hotel-images"
+                        className="flex items-center justify-center px-4 py-2.5 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                      >
+                        <FiUpload className="w-5 h-5 mr-2 text-gray-500" />
+                        <span className="text-sm text-gray-600">Choose Images</span>
+                      </label>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Image Previews
+                      Amenities
                     </label>
-                    <div className="grid grid-cols-4 gap-2">
-                      {imagePreviews.map((preview, index) => (
-                        <div key={index} className="relative group">
-                          <img
-                            src={preview}
-                            alt={`Preview ${index + 1}`}
-                            className="w-full h-20 object-cover rounded-lg border border-gray-200"
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                      {AMENITY_OPTIONS.map((amenity) => (
+                        <label key={amenity} className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            checked={formData.amenities.includes(amenity)}
+                            onChange={() => toggleAmenity(amenity)}
+                            className="w-4 h-4 text-orange-600 rounded border-gray-300 focus:ring-orange-500"
                           />
-                          <button
-                            type="button"
-                            onClick={() => removeImage(index)}
-                            className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                          >
-                            <FiX className="w-3 h-3" />
-                          </button>
-                        </div>
+                          <span className="text-sm text-gray-700">{amenity}</span>
+                        </label>
                       ))}
                     </div>
                   </div>
-                )}
 
-                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-                  <button
-                    type="button"
-                    onClick={closeModal}
-                    className="px-4 py-2.5 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
-                  >
-                    {editingHotel ? "Update Hotel" : "Create Hotel"}
-                  </button>
+                  {imagePreviews.length > 0 && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Image Previews
+                      </label>
+                      <div className="grid grid-cols-4 gap-2">
+                        {imagePreviews.map((preview, index) => (
+                          <div key={index} className="relative group">
+                            <img
+                              src={preview}
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-20 object-cover rounded-lg border border-gray-200"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <FiX className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </form>
+
+                {/* Modal Footer */}
+                <div className="bg-white rounded-b-xl border-t border-gray-200 p-6">
+                  <div className="flex justify-end space-x-3">
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      className="px-4 py-2.5 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      onClick={handleSubmit}
+                      className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
+                    >
+                      {editingHotel ? "Update Hotel" : "Create Hotel"}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -153,18 +153,18 @@ const BookingView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-[#0A0E1A] to-[#141A2A] py-4 sm:py-6 md:py-8">
-      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6">
+    <div className="min-h-screen bg-white py-6 sm:py-8 md:py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <button
             onClick={() => navigate(-1)}
-            className="group flex items-center gap-2 text-[#8B92A5] hover:text-[#C9A84C] transition-all duration-300 w-fit"
+            className="group flex items-center gap-2 text-gray-500 hover:text-[#C9A84C] transition-all duration-300 w-fit"
           >
             <FiArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
             <span className="font-medium">Back</span>
           </button>
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-[#8B92A5]">
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
             <FiLock size={14} />
             <span>Secure Checkout</span>
           </div>
@@ -173,59 +173,59 @@ const BookingView = () => {
         {/* Main Content */}
         <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
           {/* Left Column - Booking Details */}
-          <div className="flex-1 space-y-4 sm:space-y-6">
+          <div className="flex-1 space-y-5">
             {/* Flight Details */}
             {bookingData.flightDetails && (
-              <div className="bg-[#1C2438]/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-[#252E44] overflow-hidden">
-                <div className="bg-linear-to-r from-[#C9A84C]/10 to-transparent p-4 sm:p-6">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                    <div className="p-1.5 sm:p-2 rounded-xl bg-[#C9A84C]/20">
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="bg-linear-to-r from-[#FEF8E7] to-transparent p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 rounded-xl bg-[#C9A84C]/10">
                       <FiAirplay className="text-[#C9A84C]" size={20} />
                     </div>
                     <div>
-                      <h2 className="text-base sm:text-lg font-bold text-[#F5F0E8]">Flight Details</h2>
-                      <p className="text-[#8B92A5] text-xs">Review your flight information</p>
+                      <h2 className="text-lg font-bold text-gray-800">Flight Details</h2>
+                      <p className="text-gray-500 text-xs">Review your flight information</p>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-3 sm:mt-4">
-                    <div className="p-3 sm:p-4 bg-[#0F1420] rounded-xl">
-                      <p className="text-[#8B92A5] text-xs mb-1">Airline</p>
-                      <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div className="p-4 bg- rounded-xl">
+                      <p className="text-gray-500 text-xs mb-1">Airline</p>
+                      <p className="text-gray-800 font-semibold text-sm sm:text-base">
                         {bookingData.flightDetails.airline} - {bookingData.flightDetails.flightNumber}
                       </p>
                     </div>
-                    <div className="p-3 sm:p-4 bg-[#0F1420] rounded-xl">
-                      <p className="text-[#8B92A5] text-xs mb-1">Route</p>
-                      <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">
+                    <div className="p-4  rounded-xl">
+                      <p className="text-gray-500 text-xs mb-1">Route</p>
+                      <p className="text-gray-800 font-semibold text-sm sm:text-base">
                         {bookingData.flightDetails.from || bookingData.flightDetails.departureCity} → 
                         {bookingData.flightDetails.to || bookingData.flightDetails.arrivalCity}
                       </p>
                     </div>
-                    <div className="p-3 sm:p-4 bg-[#0F1420] rounded-xl">
+                    <div className="p-4  rounded-xl">
                       <div className="flex items-center gap-2 mb-1">
                         <FiClock className="text-[#C9A84C]" size={12} />
-                        <p className="text-[#8B92A5] text-xs">Departure</p>
+                        <p className="text-gray-500 text-xs">Departure</p>
                       </div>
                       <div>
-                        <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">
+                        <p className="text-gray-800 font-semibold text-sm sm:text-base">
                           {formatTime(bookingData.flightDetails.departureTime)}
                         </p>
-                        <p className="text-[#8B92A5] text-xs mt-0.5">
+                        <p className="text-gray-400 text-xs mt-0.5">
                           {formatDate(bookingData.flightDetails.departureTime)}
                         </p>
                       </div>
                     </div>
-                    <div className="p-3 sm:p-4 bg-[#0F1420] rounded-xl">
+                    <div className="p-4  rounded-xl">
                       <div className="flex items-center gap-2 mb-1">
                         <FiClock className="text-[#C9A84C]" size={12} />
-                        <p className="text-[#8B92A5] text-xs">Arrival</p>
+                        <p className="text-gray-500 text-xs">Arrival</p>
                       </div>
                       <div>
-                        <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">
+                        <p className="text-gray-800 font-semibold text-sm sm:text-base">
                           {formatTime(bookingData.flightDetails.arrivalTime)}
                         </p>
-                        <p className="text-[#8B92A5] text-xs mt-0.5">
+                        <p className="text-gray-400 text-xs mt-0.5">
                           {formatDate(bookingData.flightDetails.arrivalTime)}
                         </p>
                       </div>
@@ -237,43 +237,43 @@ const BookingView = () => {
 
             {/* Hotel Details */}
             {bookingData.hotelDetails && (
-              <div className="bg-[#1C2438]/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-[#252E44] overflow-hidden">
-                <div className="bg-linear-to-r from-[#C9A84C]/10 to-transparent p-4 sm:p-6">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                    <div className="p-1.5 sm:p-2 rounded-xl bg-[#C9A84C]/20">
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="bg-linear-to-r from-[#FEF8E7] to-transparent p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 rounded-xl bg-[#C9A84C]/10">
                       <FiHome className="text-[#C9A84C]" size={20} />
                     </div>
                     <div>
-                      <h2 className="text-base sm:text-lg font-bold text-[#F5F0E8]">Hotel Details</h2>
-                      <p className="text-[#8B92A5] text-xs">Review your hotel information</p>
+                      <h2 className="text-lg font-bold text-gray-800">Hotel Details</h2>
+                      <p className="text-gray-500 text-xs">Review your hotel information</p>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-3 sm:mt-4">
-                    <div className="p-3 sm:p-4 bg-[#0F1420] rounded-xl">
-                      <p className="text-[#8B92A5] text-xs mb-1">Hotel Name</p>
-                      <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">{bookingData.hotelDetails.name}</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div className="p-4 bg-gray-50 rounded-xl">
+                      <p className="text-gray-500 text-xs mb-1">Hotel Name</p>
+                      <p className="text-gray-800 font-semibold text-sm sm:text-base">{bookingData.hotelDetails.name}</p>
                     </div>
-                    <div className="p-3 sm:p-4 bg-[#0F1420] rounded-xl">
+                    <div className="p-4 bg-gray-50 rounded-xl">
                       <div className="flex items-center gap-2 mb-1">
                         <FiMapPin className="text-[#C9A84C]" size={12} />
-                        <p className="text-[#8B92A5] text-xs">Location</p>
+                        <p className="text-gray-500 text-xs">Location</p>
                       </div>
-                      <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">{bookingData.hotelDetails.location}</p>
+                      <p className="text-gray-800 font-semibold text-sm sm:text-base">{bookingData.hotelDetails.location}</p>
                     </div>
-                    <div className="p-3 sm:p-4 bg-[#0F1420] rounded-xl">
+                    <div className="p-4 bg-gray-50 rounded-xl">
                       <div className="flex items-center gap-2 mb-1">
                         <FiCalendar className="text-[#C9A84C]" size={12} />
-                        <p className="text-[#8B92A5] text-xs">Check-in</p>
+                        <p className="text-gray-500 text-xs">Check-in</p>
                       </div>
-                      <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">{bookingData.hotelDetails.checkIn}</p>
+                      <p className="text-gray-800 font-semibold text-sm sm:text-base">{bookingData.hotelDetails.checkIn}</p>
                     </div>
-                    <div className="p-3 sm:p-4 bg-[#0F1420] rounded-xl">
+                    <div className="p-4 bg-gray-50 rounded-xl">
                       <div className="flex items-center gap-2 mb-1">
                         <FiCalendar className="text-[#C9A84C]" size={12} />
-                        <p className="text-[#8B92A5] text-xs">Check-out</p>
+                        <p className="text-gray-500 text-xs">Check-out</p>
                       </div>
-                      <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">{bookingData.hotelDetails.checkOut}</p>
+                      <p className="text-gray-800 font-semibold text-sm sm:text-base">{bookingData.hotelDetails.checkOut}</p>
                     </div>
                   </div>
                 </div>
@@ -281,35 +281,35 @@ const BookingView = () => {
             )}
 
             {/* Passengers */}
-            <div className="bg-[#1C2438]/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-[#252E44] p-4 sm:p-6">
-              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                <div className="p-1.5 sm:p-2 rounded-xl bg-[#C9A84C]/20">
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-xl bg-[#C9A84C]/10">
                   <FiUsers className="text-[#C9A84C]" size={18} />
                 </div>
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold text-[#F5F0E8]">Passengers</h2>
-                  <p className="text-[#8B92A5] text-xs">Select number of travelers</p>
+                  <h2 className="text-lg font-bold text-gray-800">Passengers</h2>
+                  <p className="text-gray-500 text-xs">Select number of travelers</p>
                 </div>
               </div>
               
-              <div className="flex items-center justify-between p-3 sm:p-4 bg-[#0F1420] rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                 <div>
-                  <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">Number of Passengers</p>
-                  <p className="text-[#8B92A5] text-xs">Maximum 10 passengers</p>
+                  <p className="text-gray-800 font-semibold text-sm sm:text-base">Number of Passengers</p>
+                  <p className="text-gray-400 text-xs">Maximum 10 passengers</p>
                 </div>
-                <div className="flex items-center gap-3 sm:gap-4">
+                <div className="flex items-center gap-4">
                   <button
                     onClick={() => handleQuantityChange(false)}
                     disabled={quantity <= 1}
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#1C2438] border border-[#252E44] text-[#C9A84C] flex items-center justify-center hover:border-[#C9A84C] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-lg sm:text-xl"
+                    className="w-10 h-10 rounded-xl bg-white border border-gray-200 text-[#C9A84C] flex items-center justify-center hover:border-[#C9A84C] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-xl"
                   >
                     -
                   </button>
-                  <span className="w-8 sm:w-12 text-center text-xl sm:text-2xl font-bold text-[#F5F0E8]">{quantity}</span>
+                  <span className="w-12 text-center text-2xl font-bold text-gray-800">{quantity}</span>
                   <button
                     onClick={() => handleQuantityChange(true)}
                     disabled={quantity >= 10}
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#1C2438] border border-[#252E44] text-[#C9A84C] flex items-center justify-center hover:border-[#C9A84C] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-lg sm:text-xl"
+                    className="w-10 h-10 rounded-xl bg-white border border-gray-200 text-[#C9A84C] flex items-center justify-center hover:border-[#C9A84C] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-xl"
                   >
                     +
                   </button>
@@ -318,14 +318,14 @@ const BookingView = () => {
             </div>
 
             {/* Add-ons */}
-            <div className="bg-[#1C2438]/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-[#252E44] p-4 sm:p-6">
-              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                <div className="p-1.5 sm:p-2 rounded-xl bg-[#C9A84C]/20">
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-xl bg-[#C9A84C]/10">
                   <FiGift className="text-[#C9A84C]" size={18} />
                 </div>
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold text-[#F5F0E8]">Enhance Your Trip</h2>
-                  <p className="text-[#8B92A5] text-xs">Add extras to make your journey better</p>
+                  <h2 className="text-lg font-bold text-gray-800">Enhance Your Trip</h2>
+                  <p className="text-gray-500 text-xs">Add extras to make your journey better</p>
                 </div>
               </div>
               
@@ -337,19 +337,19 @@ const BookingView = () => {
                     <div
                       key={addon.id}
                       onClick={() => handleAddonToggle(addon.id)}
-                      className={`flex items-start gap-3 p-3 sm:p-4 rounded-xl cursor-pointer transition-all duration-300 ${
+                      className={`flex items-start gap-3 p-4 rounded-xl cursor-pointer transition-all duration-300 ${
                         isSelected
-                          ? 'bg-[#C9A84C]/20 border-2 border-[#C9A84C]'
-                          : 'bg-[#0F1420] border border-[#252E44] hover:border-[#C9A84C]/50'
+                          ? 'bg-[#C9A84C]/10 border-2 border-[#C9A84C]'
+                          : 'bg-gray-50 border border-gray-200 hover:border-[#C9A84C]/50'
                       }`}
                     >
                       <Icon className="text-[#C9A84C]" size={20} />
                       <div className="flex-1">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
-                          <p className="text-[#F5F0E8] font-semibold text-sm sm:text-base">{addon.name}</p>
+                          <p className="text-gray-800 font-semibold text-sm sm:text-base">{addon.name}</p>
                           <p className="text-[#C9A84C] font-bold text-sm sm:text-base">${addon.price}</p>
                         </div>
-                        <p className="text-[#8B92A5] text-xs">{addon.description}</p>
+                        <p className="text-gray-500 text-xs">{addon.description}</p>
                       </div>
                       {isSelected && (
                         <FiCheck className="text-[#C9A84C]" size={16} />
@@ -363,84 +363,84 @@ const BookingView = () => {
 
           {/* Right Column - Booking Summary */}
           <div className="lg:w-96 w-full">
-            <div className="sticky top-4 sm:top-6 md:top-8">
-              <div className="bg-linear-to-br from-[#1C2438] to-[#141A2A] rounded-xl sm:rounded-2xl border border-[#252E44] overflow-hidden">
-                <div className="p-4 sm:p-6 border-b border-[#252E44]">
+            <div className="sticky top-6">
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="p-5 border-b border-gray-100 bg-linear-to-r from-[#FEF8E7] to-transparent">
                   <div className="flex items-center gap-2 mb-2">
                     <FiCreditCard className="text-[#C9A84C]" size={18} />
-                    <h2 className="text-base sm:text-lg font-bold text-[#F5F0E8]">Booking Summary</h2>
+                    <h2 className="text-lg font-bold text-gray-800">Booking Summary</h2>
                   </div>
-                  <p className="text-[#8B92A5] text-xs">Review your booking details</p>
+                  <p className="text-gray-500 text-xs">Review your booking details</p>
                 </div>
 
-                <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-[#8B92A5]">Booking Type</span>
+                <div className="p-5 space-y-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Booking Type</span>
                     <span className="text-[#C9A84C] font-semibold uppercase">{bookingData.type}</span>
                   </div>
                   
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-[#8B92A5]">Price per passenger</span>
-                    <span className="text-[#F5F0E8] font-semibold">${bookingData.price?.toFixed(2)}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Price per passenger</span>
+                    <span className="text-gray-800 font-semibold">${bookingData.price?.toFixed(2)}</span>
                   </div>
                   
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-[#8B92A5]">Passengers</span>
-                    <span className="text-[#F5F0E8] font-semibold">{quantity} x ${bookingData.price?.toFixed(2)}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Passengers</span>
+                    <span className="text-gray-800 font-semibold">{quantity} x ${bookingData.price?.toFixed(2)}</span>
                   </div>
                   
                   {selectedAddons.length > 0 && (
-                    <div className="pt-2 border-t border-[#252E44]">
-                      <p className="text-[#8B92A5] text-xs mb-2">Add-ons</p>
+                    <div className="pt-2 border-t border-gray-100">
+                      <p className="text-gray-500 text-xs mb-2">Add-ons</p>
                       {selectedAddons.map(id => {
                         const addon = addons.find(a => a.id === id);
                         return (
-                          <div key={id} className="flex justify-between text-xs sm:text-sm mb-1">
-                            <span className="text-[#8B92A5]">{addon.name}</span>
-                            <span className="text-[#F5F0E8]">+${addon.price}</span>
+                          <div key={id} className="flex justify-between text-sm mb-1">
+                            <span className="text-gray-500">{addon.name}</span>
+                            <span className="text-gray-800">+${addon.price}</span>
                           </div>
                         );
                       })}
                     </div>
                   )}
                   
-                  <div className="flex justify-between text-xs sm:text-sm pt-2 border-t border-[#252E44]">
-                    <span className="text-[#8B92A5]">Subtotal</span>
-                    <span className="text-[#F5F0E8] font-semibold">${(basePrice + addonsTotal).toFixed(2)}</span>
+                  <div className="flex justify-between text-sm pt-2 border-t border-gray-100">
+                    <span className="text-gray-500">Subtotal</span>
+                    <span className="text-gray-800 font-semibold">${(basePrice + addonsTotal).toFixed(2)}</span>
                   </div>
                   
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-[#8B92A5]">Taxes & Fees</span>
-                    <span className="text-[#F5F0E8]">${taxes.toFixed(2)}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Taxes & Fees</span>
+                    <span className="text-gray-800">${taxes.toFixed(2)}</span>
                   </div>
                   
-                  <div className="flex justify-between items-center pt-3 sm:pt-4 border-t border-[#252E44]">
+                  <div className="flex justify-between items-center pt-4 border-t border-gray-100">
                     <div>
-                      <p className="text-[#F5F0E8] font-bold text-base sm:text-lg">Total</p>
-                      <p className="text-[#8B92A5] text-xs">Including all taxes</p>
+                      <p className="text-gray-800 font-bold text-lg">Total</p>
+                      <p className="text-gray-400 text-xs">Including all taxes</p>
                     </div>
-                    <p className="text-2xl sm:text-3xl font-bold text-[#E8C97A]">${finalTotal.toFixed(2)}</p>
+                    <p className="text-2xl font-bold text-[#C9A84C]">${finalTotal.toFixed(2)}</p>
                   </div>
                 </div>
 
-                <div className="p-4 sm:p-6 bg-[#0F1420] border-t border-[#252E44]">
+                <div className="p-5 bg-gray-50 border-t border-gray-100">
                   <button
                     onClick={handleProceedToPayment}
                     disabled={loading || !bookingData.referenceId}
-                    className={`w-full py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all duration-300 ${
+                    className={`w-full py-3.5 rounded-xl font-bold text-base transition-all duration-300 ${
                       !loading && bookingData.referenceId
-                        ? 'bg-linear-to-r from-[#C9A84C] to-[#E8C97A] text-[#0A0E1A] hover:shadow-lg hover:shadow-[#C9A84C]/30 transform hover:scale-[1.02]'
-                        : 'bg-[#252E44] text-[#8B92A5] cursor-not-allowed'
+                        ? 'bg-[#C9A84C] text-white hover:bg-[#B8922E] shadow-sm hover:shadow-md transform hover:scale-[1.02]'
+                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
                   >
                     {loading ? (
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#0A0E1A] mx-auto"></div>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mx-auto"></div>
                     ) : (
                       'Proceed to Payment'
                     )}
                   </button>
                   
-                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mt-4 text-xs text-[#8B92A5]">
+                  <div className="flex flex-wrap items-center justify-center gap-4 mt-4 text-xs text-gray-500">
                     <span className="flex items-center gap-1">
                       <FiShield size={12} /> Secure Payment
                     </span>
@@ -454,12 +454,13 @@ const BookingView = () => {
                 </div>
               </div>
 
-              <div className="mt-4 p-3 sm:p-4 bg-[#1C2438]/30 rounded-xl border border-[#252E44] text-center">
-                <div className="flex items-center justify-center gap-2 text-[#10B981] mb-2">
+              {/* Free Cancellation Notice */}
+              <div className="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100 text-center">
+                <div className="flex items-center justify-center gap-2 text-emerald-600 mb-2">
                   <FiCheck size={14} />
-                  <span className="text-xs sm:text-sm font-semibold">Free Cancellation</span>
+                  <span className="text-sm font-semibold">Free Cancellation</span>
                 </div>
-                <p className="text-[#8B92A5] text-xs">Cancel up to 24 hours before for a full refund</p>
+                <p className="text-gray-500 text-xs">Cancel up to 24 hours before for a full refund</p>
               </div>
             </div>
           </div>

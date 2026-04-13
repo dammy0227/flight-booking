@@ -21,7 +21,8 @@ import {
   FiTag,
   FiClock,
   FiBookOpen,
-  FiCompass
+  FiCompass,
+  FiArrowRight
 } from 'react-icons/fi';
 
 const UserBookings = () => {
@@ -66,34 +67,34 @@ const UserBookings = () => {
   const getStatusConfig = (status, paymentStatus) => {
     if (paymentStatus === 'paid') {
       return {
-        color: 'bg-linear-to-r from-emerald-500/20 to-emerald-600/20 text-emerald-400 border-emerald-500/30',
+        color: 'bg-emerald-100 text-emerald-700 border-emerald-200',
         icon: FiCheckCircle,
         label: 'PAID',
       };
     }
     if (status === 'confirmed') {
       return {
-        color: 'bg-linear-to-r from-blue-500/20 to-blue-600/20 text-blue-400 border-blue-500/30',
+        color: 'bg-blue-100 text-blue-700 border-blue-200',
         icon: FiCheckCircle,
         label: 'CONFIRMED',
       };
     }
     if (status === 'pending') {
       return {
-        color: 'bg-linear-to-r from-amber-500/20 to-amber-600/20 text-amber-400 border-amber-500/30',
+        color: 'bg-amber-100 text-amber-700 border-amber-200',
         icon: FiAlertCircle,
         label: 'PENDING',
       };
     }
     if (status === 'cancelled') {
       return {
-        color: 'bg-linear-to-r from-red-500/20 to-red-600/20 text-red-400 border-red-500/30',
+        color: 'bg-red-100 text-red-700 border-red-200',
         icon: FiXCircle,
         label: 'CANCELLED',
       };
     }
     return {
-      color: 'bg-linear-to-r from-gray-500/20 to-gray-600/20 text-gray-400 border-gray-500/30',
+      color: 'bg-gray-100 text-gray-600 border-gray-200',
       icon: FiAlertCircle,
       label: status?.toUpperCase() || 'PENDING',
     };
@@ -112,19 +113,21 @@ const UserBookings = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
+        <div className="space-y-6 sm:space-y-8">
+          {/* Header */}
           <div>
-            <h1 className="text-4xl font-bold text-white">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
               My Bookings
             </h1>
-            <p className="text-[#8B92A5] mt-2 flex items-center gap-2">
+            <p className="text-gray-500 mt-2 flex items-center gap-2">
               <FiBookOpen className="text-[#C9A84C]" size={16} />
               Manage and track all your travel bookings in one place
             </p>
           </div>
 
-          <div className="bg-linear-to-r from-[#1C2438] to-[#141B2B] rounded-2xl border border-[#252E44] p-5 shadow-xl">
+          {/* Search and Filter Bar */}
+          <div className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 relative">
                 <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#C9A84C]" size={18} />
@@ -133,12 +136,12 @@ const UserBookings = () => {
                   placeholder="Search by booking ID, destination, or type..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-[#0F1420] border border-[#252E44] rounded-xl text-[#F5F0E8] text-sm focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]/50 transition-all"
+                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C]/50 transition-all"
                 />
               </div>
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 px-5 py-3 bg-[#0F1420] hover:bg-[#1C2438] rounded-xl text-[#8B92A5] hover:text-[#C9A84C] transition-all border border-[#252E44]"
+                className="flex items-center justify-center gap-2 px-5 py-3 bg-gray-50 hover:bg-gray-100 rounded-xl text-gray-600 hover:text-[#C9A84C] transition-all border border-gray-200"
               >
                 <FiFilter size={16} />
                 <span>Filters</span>
@@ -147,13 +150,13 @@ const UserBookings = () => {
             </div>
 
             {showFilters && (
-              <div className="flex flex-wrap gap-3 mt-5 pt-5 border-t border-[#252E44]">
+              <div className="flex flex-wrap gap-3 mt-5 pt-5 border-t border-gray-100">
                 <button
                   onClick={() => setFilter('all')}
                   className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                     filter === 'all'
-                      ? 'bg-linear-to-r from-[#C9A84C] to-[#E8C97A] text-[#0A0E1A] shadow-lg'
-                      : 'bg-[#0F1420] text-[#8B92A5] hover:text-[#F5F0E8] hover:bg-[#1C2438]'
+                      ? 'bg-[#C9A84C] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
                   All Bookings
@@ -162,8 +165,8 @@ const UserBookings = () => {
                   onClick={() => setFilter('paid')}
                   className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                     filter === 'paid'
-                      ? 'bg-linear-to-r from-emerald-500 to-emerald-600 text-white shadow-lg'
-                      : 'bg-[#0F1420] text-[#8B92A5] hover:text-[#F5F0E8] hover:bg-[#1C2438]'
+                      ? 'bg-emerald-500 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
                   Paid
@@ -172,8 +175,8 @@ const UserBookings = () => {
                   onClick={() => setFilter('pending')}
                   className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                     filter === 'pending'
-                      ? 'bg-linear-to-r from-amber-500 to-amber-600 text-white shadow-lg'
-                      : 'bg-[#0F1420] text-[#8B92A5] hover:text-[#F5F0E8] hover:bg-[#1C2438]'
+                      ? 'bg-amber-500 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
                   Pending
@@ -182,8 +185,8 @@ const UserBookings = () => {
                   onClick={() => setFilter('cancelled')}
                   className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                     filter === 'cancelled'
-                      ? 'bg-linear-to-r from-red-500 to-red-600 text-white shadow-lg'
-                      : 'bg-[#0F1420] text-[#8B92A5] hover:text-[#F5F0E8] hover:bg-[#1C2438]'
+                      ? 'bg-red-500 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
                   Cancelled
@@ -192,14 +195,15 @@ const UserBookings = () => {
             )}
           </div>
 
+          {/* Bookings Grid */}
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3, 4, 5, 6].map(i => (
-                <div key={i} className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-6 animate-pulse">
+                <div key={i} className="bg-white rounded-xl border border-gray-100 p-6 animate-pulse shadow-sm">
                   <div className="space-y-4">
-                    <div className="h-24 bg-[#252E44] rounded-xl"></div>
-                    <div className="h-4 bg-[#252E44] rounded w-3/4"></div>
-                    <div className="h-4 bg-[#252E44] rounded w-1/2"></div>
+                    <div className="h-24 bg-gray-100 rounded-xl"></div>
+                    <div className="h-4 bg-gray-100 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-100 rounded w-1/2"></div>
                   </div>
                 </div>
               ))}
@@ -214,30 +218,29 @@ const UserBookings = () => {
                 return (
                   <div
                     key={booking._id}
-                    className="group relative bg-linear-to-br from-[#1C2438] to-[#141B2B] rounded-2xl border border-[#252E44] hover:border-[#C9A84C]/50 hover:shadow-2xl hover:shadow-[#C9A84C]/5 transition-all duration-300 overflow-hidden"
+                    className="group relative bg-white rounded-xl border border-gray-100 hover:border-[#C9A84C]/40 hover:shadow-lg transition-all duration-300 overflow-hidden"
                   >
-                    <div className="absolute inset-0 bg-linear-to-r from-[#C9A84C]/0 via-[#C9A84C]/0 to-[#C9A84C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    
-                    <div className="p-6 relative">
+                    <div className="p-5 sm:p-6">
+                      {/* Header */}
                       <div className="flex justify-between items-start mb-4">
                         <div className="flex items-center gap-3">
-                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center transform transition-transform group-hover:scale-110 ${
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                             booking.type === 'flight' 
-                              ? 'bg-linear-to-br from-[#C9A84C]/20 to-[#C9A84C]/10 border border-[#C9A84C]/30' 
-                              : 'bg-linear-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/30'
+                              ? 'bg-[#C9A84C]/10' 
+                              : 'bg-emerald-500/10'
                           }`}>
                             {booking.type === 'flight' ? (
                               <FiAirplay className="text-[#C9A84C]" size={24} />
                             ) : (
-                              <FiHome className="text-emerald-400" size={24} />
+                              <FiHome className="text-emerald-500" size={24} />
                             )}
                           </div>
                           <div>
-                            <h3 className="text-[#F5F0E8] font-bold text-lg capitalize">
+                            <h3 className="text-gray-800 font-bold text-lg capitalize">
                               {booking.type === 'flight' ? 'Flight Booking' : 'Hotel Reservation'}
                             </h3>
-                            <p className="text-[#8B92A5] text-xs font-mono">
-                              <FiTag className="inline mr-1" size={10} />
+                            <p className="text-gray-400 text-xs font-mono flex items-center gap-1">
+                              <FiTag size={10} />
                               #{booking._id?.slice(-8).toUpperCase()}
                             </p>
                           </div>
@@ -248,69 +251,73 @@ const UserBookings = () => {
                         </div>
                       </div>
 
-                      <div className="mb-4 p-3 bg-[#0F1420] rounded-xl border border-[#252E44]">
+                      {/* Amount */}
+                      <div className="mb-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <FiDollarSign className="text-[#C9A84C]" size={18} />
-                            <span className="text-[#8B92A5] text-sm">Total Amount</span>
+                            <span className="text-gray-500 text-sm">Total Amount</span>
                           </div>
                           <div className="text-right">
-                            <p className="text-2xl font-bold text-[#E8C97A]">${booking.totalPrice?.toFixed(2)}</p>
-                            <p className="text-[#8B92A5] text-xs">including taxes</p>
+                            <p className="text-2xl font-bold text-[#C9A84C]">${booking.totalPrice?.toFixed(2)}</p>
+                            <p className="text-gray-400 text-xs">including taxes</p>
                           </div>
                         </div>
                       </div>
 
+                      {/* Details Grid */}
                       <div className="grid grid-cols-2 gap-3 mb-4">
                         <div className="flex items-center gap-2">
                           <FiCalendar className="text-[#C9A84C]" size={14} />
                           <div>
-                            <p className="text-[#8B92A5] text-xs">Booking Date</p>
-                            <p className="text-[#F5F0E8] text-sm font-medium">{formatDate(booking.createdAt)}</p>
+                            <p className="text-gray-400 text-xs">Booking Date</p>
+                            <p className="text-gray-700 text-sm font-medium">{formatDate(booking.createdAt)}</p>
                             <div className="flex items-center gap-1">
-                              <FiClock className="text-[#8B92A5]" size={10} />
-                              <p className="text-[#8B92A5] text-xs">{formatTime(booking.createdAt)}</p>
+                              <FiClock className="text-gray-400" size={10} />
+                              <p className="text-gray-400 text-xs">{formatTime(booking.createdAt)}</p>
                             </div>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
                           <FiUsers className="text-[#C9A84C]" size={14} />
                           <div>
-                            <p className="text-[#8B92A5] text-xs">Travelers</p>
-                            <p className="text-[#F5F0E8] text-sm font-medium">{booking.quantity} {booking.quantity > 1 ? 'passengers' : 'passenger'}</p>
+                            <p className="text-gray-400 text-xs">Travelers</p>
+                            <p className="text-gray-700 text-sm font-medium">{booking.quantity} {booking.quantity > 1 ? 'passengers' : 'passenger'}</p>
                           </div>
                         </div>
                       </div>
 
+                      {/* Trip Details */}
                       {booking.type === 'flight' && booking.flightDetails && (
-                        <div className="mb-4 p-3 bg-[#0F1420] rounded-xl border border-[#252E44]">
+                        <div className="mb-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
                           <div className="flex justify-between items-center">
                             <div>
-                              <p className="text-[#8B92A5] text-xs">Departure</p>
-                              <p className="text-[#F5F0E8] font-semibold">{booking.flightDetails.from}</p>
+                              <p className="text-gray-400 text-xs">Departure</p>
+                              <p className="text-gray-800 font-semibold">{booking.flightDetails.from}</p>
                             </div>
-                            <FiMapPin className="text-[#C9A84C]" size={14} />
+                            <FiArrowRight className="text-[#C9A84C]" size={14} />
                             <div className="text-right">
-                              <p className="text-[#8B92A5] text-xs">Arrival</p>
-                              <p className="text-[#F5F0E8] font-semibold">{booking.flightDetails.to}</p>
+                              <p className="text-gray-400 text-xs">Arrival</p>
+                              <p className="text-gray-800 font-semibold">{booking.flightDetails.to}</p>
                             </div>
                           </div>
                         </div>
                       )}
 
                       {booking.type === 'hotel' && booking.hotelDetails && (
-                        <div className="mb-4 p-3 bg-[#0F1420] rounded-xl border border-[#252E44]">
+                        <div className="mb-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
                           <div className="flex items-center gap-2">
                             <FiMapPin className="text-[#C9A84C]" size={14} />
                             <div>
-                              <p className="text-[#8B92A5] text-xs">Location</p>
-                              <p className="text-[#F5F0E8] text-sm font-medium">{booking.hotelDetails.location}</p>
+                              <p className="text-gray-400 text-xs">Location</p>
+                              <p className="text-gray-800 text-sm font-medium">{booking.hotelDetails.location}</p>
                             </div>
                           </div>
                         </div>
                       )}
 
-                      <div className="flex gap-3 mt-4 pt-4 border-t border-[#252E44]">
+                      {/* Action Buttons */}
+                      <div className="flex gap-3 mt-4 pt-4 border-t border-gray-100">
                         <button
                           onClick={() => handleViewDetails(booking)}
                           className="flex-1 px-4 py-2.5 border-2 border-[#C9A84C]/40 rounded-xl text-[#C9A84C] text-sm font-semibold hover:bg-[#C9A84C]/10 hover:border-[#C9A84C] transition-all flex items-center justify-center gap-2 group"
@@ -321,7 +328,7 @@ const UserBookings = () => {
                         {!isPaid && (
                           <button
                             onClick={() => handlePayNow(booking)}
-                            className="flex-1 px-4 py-2.5 bg-linear-to-r from-[#C9A84C] to-[#E8C97A] rounded-xl text-[#0A0E1A] text-sm font-bold hover:from-[#E8C97A] hover:to-[#C9A84C] transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+                            className="flex-1 px-4 py-2.5 bg-[#C9A84C] rounded-xl text-white text-sm font-bold hover:bg-[#B8922E] transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
                           >
                             <FiCreditCard size={14} />
                             Pay Now
@@ -334,23 +341,31 @@ const UserBookings = () => {
               })}
             </div>
           ) : (
-            <div className="bg-linear-to-br from-[#1C2438] to-[#141B2B] rounded-2xl border border-[#252E44] p-16 text-center">
+            <div className="bg-gray-50 rounded-xl border border-gray-100 p-12 sm:p-16 text-center">
               <div className="relative inline-block">
-                <FiCompass className="text-8xl mb-6 text-[#C9A84C] animate-bounce" />
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#C9A84C] rounded-full animate-pulse"></div>
+                <FiCompass className="text-6xl sm:text-7xl mb-6 text-[#C9A84C] mx-auto" />
+                <div className="absolute -top-2 -right-2 w-5 h-5 bg-[#C9A84C] rounded-full animate-pulse"></div>
               </div>
-              <h3 className="text-[#F5F0E8] text-2xl font-bold mb-3">No bookings yet</h3>
-              <p className="text-[#8B92A5] text-base mb-6 max-w-md mx-auto">
+              <h3 className="text-gray-800 text-xl sm:text-2xl font-bold mb-3">No bookings yet</h3>
+              <p className="text-gray-500 text-sm sm:text-base mb-6 max-w-md mx-auto">
                 Your booked flights and hotel reservations will appear here. Start planning your next adventure!
               </p>
-              <button
-                onClick={() => navigate('/user-dashboard/flights')}
-                className="px-8 py-3 bg-linear-to-r from-[#C9A84C] to-[#E8C97A] rounded-xl text-[#0A0E1A] text-sm font-bold hover:from-[#E8C97A] hover:to-[#C9A84C] transition-all shadow-lg hover:shadow-xl inline-flex items-center gap-2"
-              >
-                <FiAirplay size={16} />
-                Browse Flights
-                <FiHome size={16} />
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  onClick={() => navigate('/user-dashboard/flights')}
+                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-[#3B82F6] rounded-xl text-white text-sm font-semibold hover:bg-[#2563EB] transition-all inline-flex items-center gap-2 justify-center"
+                >
+                  <FiAirplay size={16} />
+                  Browse Flights
+                </button>
+                <button
+                  onClick={() => navigate('/user-dashboard/hotels')}
+                  className="px-6 sm:px-8 py-2.5 sm:py-3 border-2 border-[#C9A84C] rounded-xl text-[#C9A84C] text-sm font-semibold hover:bg-[#C9A84C]/10 transition-all inline-flex items-center gap-2 justify-center"
+                >
+                  <FiHome size={16} />
+                  Find Hotels
+                </button>
+              </div>
             </div>
           )}
         </div>

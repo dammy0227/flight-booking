@@ -129,7 +129,7 @@ const FlightDetails = () => {
 
   if (loading && !flight) {
     return (
-      <div className="flex items-center justify-center min-h-100">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C9A84C]"></div>
       </div>
     );
@@ -137,16 +137,20 @@ const FlightDetails = () => {
 
   if (!flight) {
     return (
-      <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-12 text-center">
-        <FiAirplay className="text-6xl mx-auto mb-4 text-[#8B92A5]" />
-        <h3 className="text-[#F5F0E8] text-xl font-semibold mb-2">Flight not found</h3>
-        <p className="text-[#8B92A5] text-sm mb-4">The flight you're looking for doesn't exist</p>
-        <button
-          onClick={() => navigate('/user-dashboard/flights')}
-          className="px-6 py-2.5 bg-[#C9A84C] rounded-xl text-[#0A0E1A] text-sm font-semibold hover:bg-[#E8C97A] transition-colors"
-        >
-          Back to Flights
-        </button>
+      <div className="min-h-screen bg-white">
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <div className="bg-gray-50 rounded-2xl border border-gray-100 p-12 text-center">
+            <FiAirplay className="text-6xl mx-auto mb-4 text-gray-300" />
+            <h3 className="text-gray-800 text-xl font-semibold mb-2">Flight not found</h3>
+            <p className="text-gray-500 text-sm mb-5">The flight you're looking for doesn't exist</p>
+            <button
+              onClick={() => navigate('/user-dashboard/flights')}
+              className="px-6 py-2.5 bg-[#C9A84C] rounded-xl text-white text-sm font-semibold hover:bg-[#B8922E] transition-colors"
+            >
+              Back to Flights
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -189,246 +193,261 @@ const FlightDetails = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <div className="space-y-6">
-        <button
-          onClick={() => navigate('/user-dashboard/flights')}
-          className="flex items-center gap-2 text-[#8B92A5] hover:text-[#C9A84C] transition-colors group"
-        >
-          <FiArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          <span>Back to Flights</span>
-        </button>
+    <div className="min-h-screen">
+      <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
+        <div className="space-y-6">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('/user-dashboard/flights')}
+            className="flex items-center gap-2 text-gray-500 hover:text-[#C9A84C] transition-colors group"
+          >
+            <FiArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <span>Back to Flights</span>
+          </button>
 
-        <div className="bg-linear-to-r from-[#1C2438] to-[#0F1420] rounded-2xl border border-[#252E44] overflow-hidden">
-          <div className="p-6">
-            <div className="flex flex-wrap justify-between items-start gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-xl bg-linear-to-br from-[#C9A84C]/20 to-[#C9A84C]/10 border border-[#C9A84C]/30 flex items-center justify-center">
-                  <FiAirplay className="text-[#C9A84C] text-3xl" />
+          {/* Airline Header */}
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="p-6">
+              <div className="flex flex-wrap justify-between items-start gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-xl bg-[#C9A84C]/10 flex items-center justify-center">
+                    <FiAirplay className="text-[#C9A84C] text-3xl" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-800">{flight.airline}</h2>
+                    <p className="text-gray-500 text-sm mt-1">Flight {flight.flightNumber}</p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-bold text-[#F5F0E8]">{flight.airline}</h2>
-                  <p className="text-[#8B92A5] text-sm mt-1">Flight {flight.flightNumber}</p>
+                <div className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
+                  seatsLow 
+                    ? 'bg-amber-50 text-amber-600 border border-amber-200' 
+                    : 'bg-emerald-50 text-emerald-600 border border-emerald-200'
+                }`}>
+                  {seatsLow ? <FiAlertCircle size={14} /> : <FiCheckCircle size={14} />}
+                  {flight.availableSeats} seats available
                 </div>
-              </div>
-              <div className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
-                seatsLow 
-                  ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' 
-                  : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-              }`}>
-                {seatsLow ? <FiAlertCircle size={14} /> : <FiCheckCircle size={14} />}
-                {flight.availableSeats} seats available
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-            <div className="text-center md:text-left">
-              <p className="text-3xl font-bold text-[#F5F0E8]">{formatTime(flight.departureTime)}</p>
-              <p className="text-lg text-[#C9A84C] font-semibold mt-1">{flight.departureCity}</p>
-              <p className="text-sm text-[#8B92A5] mt-1">{formatShortDate(flight.departureTime)}</p>
-            </div>
-
-            <div className="relative">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <div className="h-px flex-1 bg-linear-to-r from-transparent via-[#C9A84C] to-transparent"></div>
-                <div className="w-10 h-10 rounded-full bg-[#C9A84C]/10 flex items-center justify-center">
-                  <FiAirplay className="text-[#C9A84C] text-lg" />
-                </div>
-                <div className="h-px flex-1 bg-linear-to-r from-transparent via-[#C9A84C] to-transparent"></div>
+          {/* Route Info */}
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+              <div className="text-center md:text-left">
+                <p className="text-3xl font-bold text-gray-800">{formatTime(flight.departureTime)}</p>
+                <p className="text-lg text-[#C9A84C] font-semibold mt-1">{flight.departureCity}</p>
+                <p className="text-sm text-gray-500 mt-1">{formatShortDate(flight.departureTime)}</p>
               </div>
-              <p className="text-center text-[#8B92A5] text-sm font-medium">{duration}</p>
-              <p className="text-center text-xs text-[#8B92A5] mt-1">Direct Flight</p>
-            </div>
 
-            <div className="text-center md:text-right">
-              <p className="text-3xl font-bold text-[#F5F0E8]">{formatTime(flight.arrivalTime)}</p>
-              <p className="text-lg text-[#C9A84C] font-semibold mt-1">{flight.arrivalCity}</p>
-              <p className="text-sm text-[#8B92A5] mt-1">{formatShortDate(flight.arrivalTime)}</p>
+              <div className="relative">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <div className="h-px flex-1 bg-linear-to-r from-transparent via-[#C9A84C] to-transparent"></div>
+                  <div className="w-10 h-10 rounded-full bg-[#C9A84C]/10 flex items-center justify-center">
+                    <FiAirplay className="text-[#C9A84C] text-lg" />
+                  </div>
+                  <div className="h-px flex-1 bg-linear-to-r from-transparent via-[#C9A84C] to-transparent"></div>
+                </div>
+                <p className="text-center text-gray-500 text-sm font-medium">{duration}</p>
+                <p className="text-center text-xs text-gray-400 mt-1">Direct Flight</p>
+              </div>
+
+              <div className="text-center md:text-right">
+                <p className="text-3xl font-bold text-gray-800">{formatTime(flight.arrivalTime)}</p>
+                <p className="text-lg text-[#C9A84C] font-semibold mt-1">{flight.arrivalCity}</p>
+                <p className="text-sm text-gray-500 mt-1">{formatShortDate(flight.arrivalTime)}</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="space-y-6">
-            <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-6">
-              <h3 className="text-lg font-bold text-[#F5F0E8] mb-4 flex items-center gap-2">
-                <FiPackage className="text-[#C9A84C]" />
-                Cabin Class
-              </h3>
-              <div className="space-y-3">
-                {cabinClasses.map(cabin => {
-                  const CabinIcon = cabin.icon;
-                  const isSelected = selectedCabin === cabin.id;
-                  return (
-                    <button
-                      key={cabin.id}
-                      onClick={() => setSelectedCabin(cabin.id)}
-                      className={`w-full p-4 rounded-xl border transition-all text-left ${
-                        isSelected
-                          ? 'border-[#C9A84C] bg-[#C9A84C]/10'
-                          : 'border-[#252E44] hover:border-[#C9A84C]/50'
-                      }`}
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="flex items-center gap-2">
-                          <CabinIcon className="text-[#C9A84C]" size={20} />
-                          <p className="text-[#F5F0E8] font-semibold">{cabin.name}</p>
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left Column */}
+            <div className="space-y-6">
+              {/* Cabin Class Selection */}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <FiPackage className="text-[#C9A84C]" />
+                  Cabin Class
+                </h3>
+                <div className="space-y-3">
+                  {cabinClasses.map(cabin => {
+                    const CabinIcon = cabin.icon;
+                    const isSelected = selectedCabin === cabin.id;
+                    return (
+                      <button
+                        key={cabin.id}
+                        onClick={() => setSelectedCabin(cabin.id)}
+                        className={`w-full p-4 rounded-xl border transition-all text-left ${
+                          isSelected
+                            ? 'border-[#C9A84C] bg-[#C9A84C]/5'
+                            : 'border-gray-200 hover:border-[#C9A84C]/50'
+                        }`}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <div className="flex items-center gap-2">
+                            <CabinIcon className="text-[#C9A84C]" size={20} />
+                            <p className="text-gray-800 font-semibold">{cabin.name}</p>
+                          </div>
+                          <p className="text-[#C9A84C] font-bold">${cabin.price}</p>
                         </div>
-                        <p className="text-[#E8C97A] font-bold">${cabin.price}</p>
-                      </div>
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {cabin.features.slice(0, 3).map((feature, idx) => (
-                          <span key={idx} className="text-[#8B92A5] text-xs">• {feature}</span>
-                        ))}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-6">
-              <h3 className="text-lg font-bold text-[#F5F0E8] mb-4 flex items-center gap-2">
-                <FiInfo className="text-[#C9A84C]" />
-                Flight Details
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-start gap-3">
-                  <FiClock className="text-[#C9A84C] mt-1 shrink-0" size={18} />
-                  <div>
-                    <p className="text-[#8B92A5] text-xs mb-1">Duration</p>
-                    <p className="text-[#F5F0E8] font-semibold text-sm">{duration}</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FiMapPin className="text-[#C9A84C] mt-1 shrink-0" size={18} />
-                  <div>
-                    <p className="text-[#8B92A5] text-xs mb-1">Route</p>
-                    <p className="text-[#F5F0E8] font-semibold text-sm">
-                      {flight.departureCity} → {flight.arrivalCity}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FiUsers className="text-[#C9A84C] mt-1 shrink-0" size={18} />
-                  <div>
-                    <p className="text-[#8B92A5] text-xs mb-1">Available Seats</p>
-                    <p className={`font-semibold text-sm ${seatsLow ? 'text-amber-400' : 'text-emerald-400'}`}>
-                      {flight.availableSeats} seats
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FiCalendar className="text-[#C9A84C] mt-1 shrink-0" size={18} />
-                  <div>
-                    <p className="text-[#8B92A5] text-xs mb-1">Travel Date</p>
-                    <p className="text-[#F5F0E8] font-semibold text-sm">{formatDate(flight.departureTime)}</p>
-                  </div>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {cabin.features.slice(0, 3).map((feature, idx) => (
+                            <span key={idx} className="text-gray-500 text-xs">• {feature}</span>
+                          ))}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
 
-            <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-6">
-              <h3 className="text-lg font-bold text-[#F5F0E8] mb-4 flex items-center gap-2">
-                <FiZap className="text-[#C9A84C]" />
-                Onboard Amenities
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {amenities.map((amenity, idx) => {
-                  const AmenityIcon = amenity.icon;
-                  return (
-                    <div key={idx} className="flex items-center gap-2 p-2 bg-[#0F1420] rounded-lg">
-                      <AmenityIcon className="text-[#C9A84C]" size={16} />
-                      <span className="text-[#F5F0E8] text-sm">{amenity.name}</span>
+              {/* Flight Details */}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <FiInfo className="text-[#C9A84C]" />
+                  Flight Details
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-start gap-3">
+                    <FiClock className="text-[#C9A84C] mt-1 shrink-0" size={18} />
+                    <div>
+                      <p className="text-gray-500 text-xs mb-1">Duration</p>
+                      <p className="text-gray-800 font-semibold text-sm">{duration}</p>
                     </div>
-                  );
-                })}
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <FiMapPin className="text-[#C9A84C] mt-1 shrink-0" size={18} />
+                    <div>
+                      <p className="text-gray-500 text-xs mb-1">Route</p>
+                      <p className="text-gray-800 font-semibold text-sm">
+                        {flight.departureCity} → {flight.arrivalCity}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <FiUsers className="text-[#C9A84C] mt-1 shrink-0" size={18} />
+                    <div>
+                      <p className="text-gray-500 text-xs mb-1">Available Seats</p>
+                      <p className={`font-semibold text-sm ${seatsLow ? 'text-amber-500' : 'text-emerald-500'}`}>
+                        {flight.availableSeats} seats
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <FiCalendar className="text-[#C9A84C] mt-1 shrink-0" size={18} />
+                    <div>
+                      <p className="text-gray-500 text-xs mb-1">Travel Date</p>
+                      <p className="text-gray-800 font-semibold text-sm">{formatDate(flight.departureTime)}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              {/* Onboard Amenities */}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <FiZap className="text-[#C9A84C]" />
+                  Onboard Amenities
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {amenities.map((amenity, idx) => {
+                    const AmenityIcon = amenity.icon;
+                    return (
+                      <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                        <AmenityIcon className="text-[#C9A84C]" size={16} />
+                        <span className="text-gray-700 text-sm">{amenity.name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Booking Summary */}
+            <div className="space-y-6">
+              {/* Passengers Selection */}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <FiUsers className="text-[#C9A84C]" />
+                  Passengers
+                </h3>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Number of Passengers</span>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => handlePassengerChange(false)}
+                      disabled={numberOfPassengers <= 1}
+                      className="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 text-[#C9A84C] flex items-center justify-center hover:border-[#C9A84C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <FiMinus size={18} />
+                    </button>
+                    <span className="w-12 text-center text-xl font-bold text-gray-800">
+                      {numberOfPassengers}
+                    </span>
+                    <button
+                      onClick={() => handlePassengerChange(true)}
+                      disabled={numberOfPassengers >= flight.availableSeats}
+                      className="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 text-[#C9A84C] flex items-center justify-center hover:border-[#C9A84C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <FiPlus size={18} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Price Summary */}
+              <div className="bg-linear-to-br from-[#FEF8E7] to-white rounded-xl border border-[#C9A84C]/30 p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <FiCreditCard className="text-[#C9A84C]" />
+                  Price Summary
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center py-2">
+                    <span className="text-gray-600">Price per passenger ({selectedCabinData.name})</span>
+                    <span className="text-gray-800 font-semibold">${selectedCabinData.price}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="text-gray-600">Number of passengers</span>
+                    <span className="text-gray-800 font-semibold">x{numberOfPassengers}</span>
+                  </div>
+                  <div className="border-t border-[#C9A84C]/20 my-3"></div>
+                  <div className="flex justify-between items-center pt-2">
+                    <span className="text-lg font-bold text-gray-800">Total</span>
+                    <span className="text-2xl font-bold text-[#C9A84C]">
+                      ${(selectedCabinData.price * numberOfPassengers).toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Book Button */}
+              <button
+                onClick={handleProceedToBooking}
+                disabled={!flight.availableSeats || numberOfPassengers > flight.availableSeats}
+                className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
+                  flight.availableSeats && numberOfPassengers <= flight.availableSeats
+                    ? 'bg-[#C9A84C] text-white hover:bg-[#B8922E] shadow-sm hover:shadow-md transform hover:scale-[1.02]'
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                {flight.availableSeats && numberOfPassengers <= flight.availableSeats 
+                  ? `Book Now - $${(selectedCabinData.price * numberOfPassengers).toFixed(2)}` 
+                  : 'Not enough seats available'}
+              </button>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-6">
-              <h3 className="text-lg font-bold text-[#F5F0E8] mb-4 flex items-center gap-2">
-                <FiUsers className="text-[#C9A84C]" />
-                Passengers
-              </h3>
-              <div className="flex justify-between items-center">
-                <span className="text-[#8B92A5]">Number of Passengers</span>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => handlePassengerChange(false)}
-                    disabled={numberOfPassengers <= 1}
-                    className="w-10 h-10 rounded-xl bg-[#0F1420] border border-[#252E44] text-[#C9A84C] flex items-center justify-center hover:border-[#C9A84C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <FiMinus size={18} />
-                  </button>
-                  <span className="w-12 text-center text-xl font-bold text-[#F5F0E8]">
-                    {numberOfPassengers}
-                  </span>
-                  <button
-                    onClick={() => handlePassengerChange(true)}
-                    disabled={numberOfPassengers >= flight.availableSeats}
-                    className="w-10 h-10 rounded-xl bg-[#0F1420] border border-[#252E44] text-[#C9A84C] flex items-center justify-center hover:border-[#C9A84C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <FiPlus size={18} />
-                  </button>
-                </div>
+          {/* Info Footer */}
+          <div className="bg-gray-50 rounded-xl border border-gray-100 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <FiShield className="text-[#C9A84C] text-xl" />
+                <span className="text-gray-600 text-sm">Free cancellation up to 24 hours before departure</span>
               </div>
-            </div>
-
-            <div className="bg-linear-to-br from-[#C9A84C]/10 to-transparent rounded-2xl border border-[#C9A84C]/20 p-6">
-              <h3 className="text-lg font-bold text-[#F5F0E8] mb-4 flex items-center gap-2">
-                <FiCreditCard className="text-[#C9A84C]" />
-                Price Summary
-              </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-[#8B92A5]">Price per passenger ({selectedCabinData.name})</span>
-                  <span className="text-[#F5F0E8] font-semibold">${selectedCabinData.price}</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-[#8B92A5]">Number of passengers</span>
-                  <span className="text-[#F5F0E8] font-semibold">x{numberOfPassengers}</span>
-                </div>
-                <div className="border-t border-[#C9A84C]/20 my-3"></div>
-                <div className="flex justify-between items-center pt-2">
-                  <span className="text-lg font-bold text-[#F5F0E8]">Total</span>
-                  <span className="text-2xl font-bold text-[#E8C97A]">
-                    ${(selectedCabinData.price * numberOfPassengers).toFixed(2)}
-                  </span>
-                </div>
+              <div className="flex items-center gap-3">
+                <FiTrendingUp className="text-[#C9A84C] text-xl" />
+                <span className="text-gray-600 text-sm">Best price guaranteed</span>
               </div>
-            </div>
-
-            <button
-              onClick={handleProceedToBooking}
-              disabled={!flight.availableSeats || numberOfPassengers > flight.availableSeats}
-              className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
-                flight.availableSeats && numberOfPassengers <= flight.availableSeats
-                  ? 'bg-linear-to-r from-[#C9A84C] to-[#E8C97A] text-[#0A0E1A] hover:shadow-lg transform hover:scale-[1.02]'
-                  : 'bg-[#252E44] text-[#8B92A5] cursor-not-allowed'
-              }`}
-            >
-              {flight.availableSeats && numberOfPassengers <= flight.availableSeats 
-                ? `Book Now - $${(selectedCabinData.price * numberOfPassengers).toFixed(2)}` 
-                : 'Not enough seats available'}
-            </button>
-          </div>
-        </div>
-
-        <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-4">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <FiShield className="text-[#C9A84C] text-xl" />
-              <span className="text-[#8B92A5] text-sm">Free cancellation up to 24 hours before departure</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FiTrendingUp className="text-[#C9A84C] text-xl" />
-              <span className="text-[#8B92A5] text-sm">Best price guaranteed</span>
             </div>
           </div>
         </div>

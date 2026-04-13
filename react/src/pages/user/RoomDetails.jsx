@@ -105,7 +105,7 @@ const RoomDetails = () => {
 
   if (loading && !room) {
     return (
-      <div className="flex items-center justify-center min-h-100">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <FiLoader className="animate-spin text-[#C9A84C]" size={48} />
       </div>
     );
@@ -113,16 +113,20 @@ const RoomDetails = () => {
 
   if (!room) {
     return (
-      <div className="bg-[#1C2438] rounded-2xl border border-[#252E44] p-8 sm:p-12 text-center">
-        <FiSquare className="text-6xl mx-auto mb-4 text-[#8B92A5]" />
-        <h3 className="text-[#F5F0E8] text-xl font-semibold mb-2">Room not found</h3>
-        <p className="text-[#8B92A5] text-sm mb-4">The room you're looking for doesn't exist</p>
-        <button
-          onClick={() => navigate('/user-dashboard/rooms')}
-          className="px-6 py-2.5 bg-[#C9A84C] rounded-xl text-[#0A0E1A] text-sm font-semibold hover:bg-[#E8C97A] transition-colors"
-        >
-          Back to Rooms
-        </button>
+      <div className="min-h-screen bg-white">
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <div className="bg-gray-50 rounded-xl border border-gray-100 p-8 sm:p-12 text-center">
+            <FiSquare className="text-5xl mx-auto mb-4 text-gray-300" />
+            <h3 className="text-gray-800 text-xl font-semibold mb-2">Room not found</h3>
+            <p className="text-gray-500 text-sm mb-5">The room you're looking for doesn't exist</p>
+            <button
+              onClick={() => navigate('/user-dashboard/rooms')}
+              className="px-6 py-2.5 bg-[#C9A84C] rounded-xl text-white text-sm font-semibold hover:bg-[#B8922E] transition-colors"
+            >
+              Back to Rooms
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -133,20 +137,23 @@ const RoomDetails = () => {
   const defaultImage = 'https://via.placeholder.com/600x400?text=Room+Image';
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="space-y-4 sm:space-y-6">
+    <div className="min-h-screen ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="space-y-6">
+          {/* Back Button */}
           <button
             onClick={() => navigate('/user-dashboard/rooms')}
-            className="group flex items-center gap-2 text-[#8B92A5] hover:text-[#C9A84C] transition-all duration-300"
+            className="group flex items-center gap-2 text-gray-500 hover:text-[#C9A84C] transition-all duration-300"
           >
             <FiArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
             <span className="text-sm font-medium">Back to Rooms</span>
           </button>
 
+          {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Column - Images */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="bg-[#1C2438] rounded-2xl overflow-hidden border border-[#252E44] shadow-xl">
+              <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm">
                 <div className="relative">
                   {hasImages ? (
                     <>
@@ -198,10 +205,10 @@ const RoomDetails = () => {
                       
                       <div className={`absolute bottom-4 left-4 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-sm flex items-center gap-1 ${
                         isLowAvailability && room.availableRooms > 0
-                          ? 'bg-amber-500/90 text-[#0A0E1A]' 
+                          ? 'bg-amber-500 text-white' 
                           : room.availableRooms > 0
-                          ? 'bg-emerald-500/90 text-white'
-                          : 'bg-red-500/90 text-white'
+                          ? 'bg-emerald-500 text-white'
+                          : 'bg-red-500 text-white'
                       }`}>
                         <FiKey size={10} />
                         {room.availableRooms > 0 
@@ -211,22 +218,23 @@ const RoomDetails = () => {
                     </>
                   ) : (
                     <div className="w-full h-64 sm:h-80 md:h-96 bg-linear-to-br from-[#C9A84C]/20 to-[#C9A84C]/10 flex flex-col items-center justify-center">
-                      <FiHome className="text-6xl text-[#C9A84C]" />
-                      <p className="text-[#8B92A5] mt-2">No images available</p>
+                      <FiHome className="text-5xl text-[#C9A84C]" />
+                      <p className="text-gray-400 mt-2">No images available</p>
                     </div>
                   )}
                 </div>
                 
+                {/* Thumbnails */}
                 {hasImages && images.length > 1 && (
-                  <div className="flex gap-2 p-4 overflow-x-auto scrollbar-hide">
+                  <div className="flex gap-2 p-4 overflow-x-auto border-t border-gray-100">
                     {images.map((img, idx) => (
                       <button
                         key={idx}
                         onClick={() => setCurrentImageIndex(idx)}
                         className={`shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all ${
                           currentImageIndex === idx 
-                            ? 'border-[#C9A84C] shadow-lg shadow-[#C9A84C]/20' 
-                            : 'border-[#252E44] hover:border-[#C9A84C]/50'
+                            ? 'border-[#C9A84C] shadow-sm' 
+                            : 'border-gray-200 hover:border-[#C9A84C]/50'
                         }`}
                       >
                         <img 
@@ -245,114 +253,121 @@ const RoomDetails = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-1 space-y-6">
-              <div className="bg-linear-to-br from-[#1C2438] to-[#141B2B] rounded-2xl border border-[#252E44] p-5 sm:p-6 shadow-xl sticky top-6">
-                <div className="mb-6">
-                  <h1 className="text-xl sm:text-2xl font-bold text-[#F5F0E8] mb-2">{room.roomType}</h1>
-                  <div className="flex items-center gap-2 text-[#8B92A5]">
+            {/* Right Column - Booking Card */}
+            <div className="lg:col-span-1 space-y-5">
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 sticky top-6">
+                {/* Room Title */}
+                <div className="mb-5">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">{room.roomType}</h1>
+                  <div className="flex items-center gap-2 text-gray-500">
                     <FiMapPin size={14} />
-                    <p className="text-xs sm:text-sm">
+                    <p className="text-sm">
                       {room.hotelId?.name || room.hotelName}, {room.hotelId?.city || room.hotelCity}
                     </p>
                   </div>
                 </div>
 
-                <div className="mb-6 p-4 bg-[#0F1420] rounded-xl border border-[#252E44]">
+                {/* Price and Rating */}
+                <div className="mb-5 p-4 bg-gray-50 rounded-xl border border-gray-100">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[#8B92A5] text-sm">Price per night</span>
+                    <span className="text-gray-500 text-sm">Price per night</span>
                     <div className="flex items-center gap-1">
                       <FiStar className="text-[#C9A84C] fill-[#C9A84C]" size={14} />
-                      <span className="text-[#F5F0E8] text-sm font-semibold">4.8</span>
-                      <span className="text-[#8B92A5] text-xs">(128 reviews)</span>
+                      <span className="text-gray-800 text-sm font-semibold">4.8</span>
+                      <span className="text-gray-400 text-xs">(128 reviews)</span>
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl sm:text-3xl font-bold text-[#E8C97A]">${room.price}</span>
-                    <span className="text-[#8B92A5] text-sm">/ night</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-[#C9A84C]">${room.price}</span>
+                    <span className="text-gray-400 text-sm">/ night</span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 mb-6">
+                {/* Room Details Grid */}
+                <div className="grid grid-cols-2 gap-3 mb-5">
                   {room.bedType && (
-                    <div className="flex items-center gap-2 p-2 bg-[#0F1420] rounded-lg">
+                    <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
                       <FiSquare className="text-[#C9A84C]" size={18} />
                       <div>
-                        <p className="text-[#8B92A5] text-xs">Bed Type</p>
-                        <p className="text-[#F5F0E8] text-sm font-medium">{room.bedType}</p>
+                        <p className="text-gray-400 text-xs">Bed Type</p>
+                        <p className="text-gray-800 text-sm font-medium">{room.bedType}</p>
                       </div>
                     </div>
                   )}
                   {room.maxOccupancy && (
-                    <div className="flex items-center gap-2 p-2 bg-[#0F1420] rounded-lg">
+                    <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
                       <FiUsers size={18} className="text-[#C9A84C]" />
                       <div>
-                        <p className="text-[#8B92A5] text-xs">Max Guests</p>
-                        <p className="text-[#F5F0E8] text-sm font-medium">{room.maxOccupancy}</p>
+                        <p className="text-gray-400 text-xs">Max Guests</p>
+                        <p className="text-gray-800 text-sm font-medium">{room.maxOccupancy}</p>
                       </div>
                     </div>
                   )}
                   {room.view && (
-                    <div className="flex items-center gap-2 p-2 bg-[#0F1420] rounded-lg">
+                    <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
                       <FiEye size={18} className="text-[#C9A84C]" />
                       <div>
-                        <p className="text-[#8B92A5] text-xs">View</p>
-                        <p className="text-[#F5F0E8] text-sm font-medium">{room.view}</p>
+                        <p className="text-gray-400 text-xs">View</p>
+                        <p className="text-gray-800 text-sm font-medium">{room.view}</p>
                       </div>
                     </div>
                   )}
-                  <div className="flex items-center gap-2 p-2 bg-[#0F1420] rounded-lg">
+                  <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
                     <FiClock size={18} className="text-[#C9A84C]" />
                     <div>
-                      <p className="text-[#8B92A5] text-xs">Check-in</p>
-                      <p className="text-[#F5F0E8] text-sm font-medium">2:00 PM</p>
+                      <p className="text-gray-400 text-xs">Check-in</p>
+                      <p className="text-gray-800 text-sm font-medium">2:00 PM</p>
                     </div>
                   </div>
                 </div>
 
+                {/* Quantity Selector */}
                 {room.availableRooms > 0 && (
-                  <div className="mb-6">
-                    <label className="block text-[#8B92A5] text-sm mb-2">Number of Rooms</label>
+                  <div className="mb-5">
+                    <label className="block text-gray-600 text-sm mb-2">Number of Rooms</label>
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => setSelectedQuantity(Math.max(1, selectedQuantity - 1))}
                         disabled={selectedQuantity <= 1}
-                        className="w-10 h-10 rounded-lg bg-[#0F1420] border border-[#252E44] text-[#F5F0E8] hover:bg-[#1C2438] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
                         -
                       </button>
-                      <span className="text-xl font-semibold text-[#F5F0E8] min-w-10 text-center">
+                      <span className="text-xl font-semibold text-gray-800 min-w-10 text-center">
                         {selectedQuantity}
                       </span>
                       <button
                         onClick={() => setSelectedQuantity(Math.min(room.availableRooms, selectedQuantity + 1))}
                         disabled={selectedQuantity >= room.availableRooms}
-                        className="w-10 h-10 rounded-lg bg-[#0F1420] border border-[#252E44] text-[#F5F0E8] hover:bg-[#1C2438] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
                         +
                       </button>
-                      <span className="text-[#8B92A5] text-sm ml-auto">
+                      <span className="text-gray-500 text-sm ml-auto">
                         {room.availableRooms} available
                       </span>
                     </div>
                   </div>
                 )}
 
+                {/* Total Price */}
                 {room.availableRooms > 0 && (
-                  <div className="mb-6 p-4 bg-[#0F1420] rounded-xl border border-[#252E44]">
+                  <div className="mb-5 p-4 bg-gray-50 rounded-xl border border-gray-100">
                     <div className="flex justify-between items-center">
-                      <span className="text-[#8B92A5] text-sm">Total for {selectedQuantity} night{selectedQuantity > 1 ? 's' : ''}</span>
-                      <span className="text-xl sm:text-2xl font-bold text-[#E8C97A]">${(room.price * selectedQuantity).toFixed(2)}</span>
+                      <span className="text-gray-600 text-sm">Total for {selectedQuantity} night{selectedQuantity > 1 ? 's' : ''}</span>
+                      <span className="text-xl font-bold text-[#C9A84C]">${(room.price * selectedQuantity).toFixed(2)}</span>
                     </div>
                   </div>
                 )}
 
+                {/* Book Button */}
                 <button
                   onClick={handleBookRoom}
                   disabled={room.availableRooms < 1}
-                  className={`w-full py-4 rounded-xl font-bold text-base sm:text-lg transition-all duration-300 ${
+                  className={`w-full py-3.5 rounded-xl font-bold text-base transition-all duration-300 ${
                     room.availableRooms > 0
-                      ? 'bg-linear-to-r from-[#C9A84C] to-[#E8C97A] text-[#0A0E1A] hover:shadow-lg hover:shadow-[#C9A84C]/25 transform hover:scale-[1.02] active:scale-[0.98]'
-                      : 'bg-[#252E44] text-[#8B92A5] cursor-not-allowed'
+                      ? 'bg-[#C9A84C] text-white hover:bg-[#B8922E] shadow-sm hover:shadow-md transform hover:scale-[1.02] active:scale-[0.98]'
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   }`}
                 >
                   {room.availableRooms > 0 ? `Book Now - $${(room.price * selectedQuantity).toFixed(2)}` : 'Sold Out'}
@@ -361,32 +376,35 @@ const RoomDetails = () => {
             </div>
           </div>
 
+          {/* Bottom Section - Description & Amenities */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Description */}
             {room.description && (
-              <div className="bg-linear-to-br from-[#1C2438] to-[#141B2B] rounded-2xl border border-[#252E44] p-5 sm:p-6">
-                <h2 className="text-base sm:text-lg font-bold text-[#F5F0E8] mb-4 flex items-center gap-2">
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                   <FiInfo size={20} className="text-[#C9A84C]" />
                   Description
                 </h2>
-                <div className="p-4 bg-[#0F1420] rounded-xl">
-                  <p className="text-[#8B92A5] text-sm leading-relaxed">{room.description}</p>
+                <div className="p-4 bg-gray-50 rounded-xl">
+                  <p className="text-gray-600 text-sm leading-relaxed">{room.description}</p>
                 </div>
               </div>
             )}
 
+            {/* Amenities */}
             {room.amenities && room.amenities.length > 0 && (
-              <div className="bg-linear-to-br from-[#1C2438] to-[#141B2B] rounded-2xl border border-[#252E44] p-5 sm:p-6">
-                <h2 className="text-base sm:text-lg font-bold text-[#F5F0E8] mb-4 flex items-center gap-2">
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                   <FiCheck size={20} className="text-[#C9A84C]" />
                   Amenities
                 </h2>
                 <div className="grid grid-cols-2 gap-3">
                   {room.amenities.map((amenity, idx) => (
-                    <div key={idx} className="flex items-center gap-2 px-3 py-2 bg-[#0F1420] rounded-xl hover:bg-[#1C2438] transition-colors group">
+                    <div key={idx} className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
                       <div className="text-[#C9A84C] group-hover:scale-110 transition-transform">
                         {getAmenityIcon(amenity)}
                       </div>
-                      <span className="text-[#F5F0E8] text-xs sm:text-sm">{amenity}</span>
+                      <span className="text-gray-700 text-sm">{amenity}</span>
                     </div>
                   ))}
                 </div>
@@ -396,6 +414,7 @@ const RoomDetails = () => {
         </div>
       </div>
 
+      {/* Image Modal */}
       {isImageModalOpen && hasImages && (
         <div 
           className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
