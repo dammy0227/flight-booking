@@ -30,11 +30,12 @@ android {
 
     buildTypes {
         release {
-            // Using debug signing temporarily so the release APK can be built and tested.
+            // Using debug signing temporarily so we can build and test the APK.
             signingConfig = signingConfigs.getByName("debug")
 
-            // Disable R8/minification to prevent the Stripe missing-class error.
+            // Disable code shrinking and resource shrinking.
             isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
